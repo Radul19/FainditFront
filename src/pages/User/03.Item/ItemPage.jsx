@@ -52,6 +52,12 @@ const Item = ({ navigation }) => {
     const reverView = () => {
         setChangeView(false)
     }
+    
+    const trueView = ()=>{
+        setChangeView(true)
+    }
+
+
 
     return (
         <View style={st.g_container} >
@@ -85,9 +91,7 @@ const Item = ({ navigation }) => {
                         <>
                             <View style={st.bottom_top} >
                                 <Text >Comentarios</Text>
-                                <TouchableOpacity onPress={() => {
-                                    setChangeView(true)
-                                }} >
+                                <TouchableOpacity onPress={trueView} >
                                     <Text style={st.calify}  >Calificar</Text>
                                 </TouchableOpacity>
                             </View>
@@ -123,7 +127,7 @@ const Item = ({ navigation }) => {
                 </View>
                 <View style={{ height: 200 }} ></View>
             </ScrollView>
-            <BtnSubmitReview />
+            <BtnSubmitReview action={trueView} />
             <NavBarGeneral navigation={navigation} active={1} />
 
         </View>

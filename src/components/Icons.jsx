@@ -1,7 +1,16 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Svg, Path, Mask, Rect, G } from "react-native-svg";
-import { TouchableOpacity } from "react-native";
+import {
+  TouchableOpacity,
+  Modal,
+  View,
+  Text,
+  TextInput,
+  Image,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import st from "../sass/components/icons.sass";
+import done from "../images/done.png";
 
 export const Star = ({ size = "18" }) => {
   return (
@@ -901,7 +910,7 @@ export const Phone = () => {
   );
 };
 
-export const Check = ({ size = "24" }) => {
+export const Check = ({ size = "24", color = "1C1B1F" }) => {
   return (
     <Svg
       width={size}
@@ -916,15 +925,15 @@ export const Check = ({ size = "24" }) => {
         maskUnits="userSpaceOnUse"
         x="0"
         y="0"
-        width="24"
-        height="24"
+        width={size}
+        height={size}
       >
         <Rect width="24" height="24" fill="#D9D9D9" />
       </Mask>
       <G mask="url(#mask0_99_2018)">
         <Path
           d="M9.54998 18.0001L3.84998 12.3001L5.27498 10.8751L9.54998 15.1501L18.725 5.9751L20.15 7.4001L9.54998 18.0001Z"
-          fill="#1C1B1F"
+          fill={color}
         />
       </G>
     </Svg>
@@ -1384,29 +1393,19 @@ export const Book = ({ size = "25", color = "#000000" }) => {
 export const Cross = ({ size = "25", color = "#000000" }) => {
   return (
     <Svg
+      clip-rule="evenodd"
+      fill-rule="evenodd"
+      stroke-linejoin="round"
+      stroke-miterlimit="2"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
       width={size}
       height={size}
-      viewBox="0 0 24 24"
-      fill={color}
-      xmlns="http://www.w3.org/2000/svg"
     >
-      <Mask
-        id="mask0_410_2585"
-        style="mask-type:alpha"
-        maskUnits="userSpaceOnUse"
-        x="0"
-        y="0"
-        width={size}
-        height={size}
-      >
-        <Rect width={size} height={size} fill={color} />
-      </Mask>
-      <G mask="url(#mask0_410_2585)">
-        <Path
-          d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
-          fill={color}
-        />
-      </G>
+      <Path
+        fill={color}
+        d="m12 10.93 5.719-5.72c.146-.146.339-.219.531-.219.404 0 .75.324.75.749 0 .193-.073.385-.219.532l-5.72 5.719 5.719 5.719c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.385-.073-.531-.219l-5.719-5.719-5.719 5.719c-.146.146-.339.219-.531.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l5.719-5.719-5.72-5.719c-.146-.147-.219-.339-.219-.532 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
+      />
     </Svg>
   );
 };
@@ -1469,25 +1468,138 @@ export const EmailApply = ({ size = "24", color = "#FFFFFF" }) => {
     </Svg>
   );
 };
+
 export const Flag = ({ size = "24", color = "#BD271E" }) => {
-  return (
-    <Svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <Mask x="0" y="0" width={size} height={size}>
-        <Rect width={size} height={size} fill={color} />
-      </Mask>
-      <G mask="url(#mask0_398_2292)">
-        <Path
-          d="M5 21V4H14L14.4 6H20V16H13L12.6 14H7V21H5ZM14.65 14H18V8H12.75L12.35 6H7V12H14.25L14.65 14Z"
-          fill={color}
+  const [modalActive, setModalActive] = useState(false);
+  const [input, setInput] = useState("");
+
+  const [fase, setFase] = useState("_1_");
+  const [text, setText] = useState("Spam");
+
+  const inputRef = useRef(null);
+
+  const pressFlag = () => {
+    setModalActive((prev) => !prev);
+  };
+
+  const close = () => {
+    setFase("_1_");
+    setModalActive(false);
+  };
+
+  const Option = ({ text }) => {
+    return (
+      <View style={st.r_option}>
+        <Text style={st.r_subtitle}>{text}</Text>
+        <ArrowRight
+          action={() => {
+            setText(text);
+            setFase("_2_");
+          }}
         />
-      </G>
-    </Svg>
+      </View>
+    );
+  };
+
+  return (
+    <>
+      <Modal animationType="slide" transparent={true} visible={modalActive}>
+        <View style={st.flag_modal}>
+          {fase === "_1_" ? (
+            <View style={st.report_ctn}>
+              <View style={st.r_top}>
+                <Text style={st.r_title}>Denunciar Contenido</Text>
+                <TouchableOpacity style={st.r_cross} onPress={close}>
+                  <Cross />
+                </TouchableOpacity>
+              </View>
+              <View style={{ marginVertical: 0 }}>
+                <Text style={st.r_subtitle}>Seleccionar el problema</Text>
+              </View>
+              <Option text="Violencia" set={setText} />
+              <Option text="Acoso" set={setText} />
+              <Option text="Informacion falsa" set={setText} />
+              <Option text="Spam" set={setText} />
+              <Option text="Lenguaje que incita al odio" set={setText} />
+              <Option text="Otro problema" set={setText} />
+            </View>
+          ) : null}
+          {fase === "_2_" ? (
+            <View style={st.write_ctn}>
+              <View style={st.r_top}>
+                <Text style={st.r_title}>Denunciar Contenido</Text>
+                <TouchableOpacity style={st.r_cross} onPress={close}>
+                  <Cross />
+                </TouchableOpacity>
+              </View>
+              <Text style={{ marginVertical: 10 }}>{text}</Text>
+              <View style={st.input_ctn}>
+                <TextInput
+                  value={input}
+                  style={st.input}
+                  placeholder="Describe el problema aqui..."
+                  onChangeText={setInput}
+                  multiline={true}
+                  ref={inputRef}
+                />
+              </View>
+              <TouchableOpacity
+                style={st.btn_report}
+                onPress={() => {
+                  setFase("_3_");
+                }}
+              >
+                <Text style={{ color: "#fff" }}>Reportar</Text>
+              </TouchableOpacity>
+            </View>
+          ) : null}
+          {fase === "_3_" ? (
+            <View style={st.done_ctn}>
+              <View style={st.r_top}>
+                <Text style={st.r_title}>Denunciar Contenido</Text>
+                <TouchableOpacity style={st.r_cross} onPress={close}>
+                  <Cross />
+                </TouchableOpacity>
+              </View>
+              <View style={st.image_ctn}>
+                <Image source={done} style={st.image} />
+              </View>
+              <Text style={st.subtitle}>Reporte enviado con exito</Text>
+              <Text>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget
+                quam sit urna, vel cursus egestas. Lectus.
+              </Text>
+            </View>
+          ) : null}
+        </View>
+      </Modal>
+      <TouchableOpacity
+        onPress={pressFlag}
+        style={{
+          padding: 8,
+          backgroundColor: "#ffffff77",
+          borderRadius: 16,
+        }}
+      >
+        <Svg
+          width={size}
+          height={size}
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <Mask x="0" y="0" width={size} height={size}>
+            <Rect width={size} height={size} fill={color} />
+          </Mask>
+          <G mask="url(#mask0_398_2292)">
+            <Path
+              d="M5 21V4H14L14.4 6H20V16H13L12.6 14H7V21H5ZM14.65 14H18V8H12.75L12.35 6H7V12H14.25L14.65 14Z"
+              fill={color}
+            />
+          </G>
+        </Svg>
+      </TouchableOpacity>
+    </>
   );
 };
 export const PersonSil = ({ size = "24", color = "#FF6A00" }) => {
@@ -1576,6 +1688,63 @@ export const Work = ({ size = "24", active = false }) => {
           </G>
         </Svg>
       )}
+    </>
+  );
+};
+
+export const Bell2 = ({ size = "24", color = "#FF6A00" }) => {
+  const [modalActive, setModalActive] = useState(false);
+  const [input, setInput] = useState("");
+  return (
+    <>
+      <Modal animationType="slide" transparent={true} visible={modalActive}>
+        <View style={st.flag_modal}>
+          <View style={st.write_ctn}>
+            <View style={st.r_top}>
+              <Text style={st.r_title}>Denunciar Contenido</Text>
+              <TouchableOpacity style={st.r_cross} onPress={()=>{setModalActive(false)}}>
+                <Cross />
+              </TouchableOpacity>
+            </View>
+            <View style={st.input_ctn}>
+              <TextInput
+                value={input}
+                style={st.input}
+                placeholder="Describe el problema aqui..."
+                onChangeText={setInput}
+                multiline={true}
+                ref={inputRef}
+              />
+            </View>
+            <TouchableOpacity
+              style={st.btn_report}
+              onPress={() => {
+                setFase("_3_");
+              }}
+            >
+              <Text style={{ color: "#fff" }}>Reportar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      <TouchableOpacity
+        style={st.bell2}
+        onPress={() => {
+          setModalActive(true);
+        }}
+      >
+        <Svg
+          xmlns="http://www.w3.org/2000/svg"
+          width={size}
+          height={size}
+          viewBox="0 0 24 24"
+        >
+          <Path
+            d="M15.137 3.945c-.644-.374-1.042-1.07-1.041-1.82v-.003c.001-1.172-.938-2.122-2.096-2.122s-2.097.95-2.097 2.122v.003c.001.751-.396 1.446-1.041 1.82-4.667 2.712-1.985 11.715-6.862 13.306v1.749h20v-1.749c-4.877-1.591-2.195-10.594-6.863-13.306zm-3.137-2.945c.552 0 1 .449 1 1 0 .552-.448 1-1 1s-1-.448-1-1c0-.551.448-1 1-1zm3 20c0 1.598-1.392 3-2.971 3s-3.029-1.402-3.029-3h6zm5.778-11.679c.18.721.05 1.446-.304 2.035l.97.584c.504-.838.688-1.869.433-2.892-.255-1.024-.9-1.848-1.739-2.351l-.582.97c.589.355 1.043.934 1.222 1.654zm.396-4.346l-.597.995c1.023.616 1.812 1.623 2.125 2.874.311 1.251.085 2.51-.53 3.534l.994.598c.536-.892.835-1.926.835-3-.001-1.98-1.01-3.909-2.827-5.001zm-16.73 2.692l-.582-.97c-.839.504-1.484 1.327-1.739 2.351-.255 1.023-.071 2.053.433 2.892l.97-.584c-.354-.588-.484-1.314-.304-2.035.179-.72.633-1.299 1.222-1.654zm-4.444 2.308c0 1.074.299 2.108.835 3l.994-.598c-.615-1.024-.841-2.283-.53-3.534.312-1.251 1.101-2.258 2.124-2.873l-.597-.995c-1.817 1.092-2.826 3.021-2.826 5z"
+            fill={color}
+          />
+        </Svg>
+      </TouchableOpacity>
     </>
   );
 };

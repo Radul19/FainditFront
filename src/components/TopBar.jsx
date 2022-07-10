@@ -1,8 +1,17 @@
-import { View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, Image } from "react-native";
 import Text from "./Text";
 import React, { useContext } from "react";
-import styles from "../sass/components/topBar.sass";
-import { FlyIcon, BigHeart, BigArrowBack, QR, ArrowBack, Help } from "./Icons";
+import st from "../sass/components/topBar.sass";
+import {
+  FlyIcon,
+  BigHeart,
+  BigArrowBack,
+  QR,
+  ArrowBack,
+  Help,
+  Flag,
+  Bell2,
+} from "./Icons";
 import { useNavigation } from "@react-navigation/native";
 
 import { BtnBusiness } from "./Btns";
@@ -10,22 +19,27 @@ import { Context } from "../controllers/Context";
 
 export const HomeTopBar = ({ user }) => {
   const navigation = useNavigation();
-  const { navbarType, setNavbarType, setEnableSeller } = useContext(Context);
+  const { navbarType, authFaMarket, setNavbarType, setEnableSeller } =
+    useContext(Context);
 
   return (
-    <View style={styles.top_bar_home}>
-      <View style={styles.top_bar_home_left}>
+    <View style={st.top_bar_home}>
+      <View style={st.top_bar_home_left}>
         <Text style={{ fontSize: 24 }}>Hola Juan!</Text>
         <BtnBusiness
           action={() => {
-            setEnableSeller(true);
-            setNavbarType(2);
-            navigation.navigate("Dashboard");
+            if (authFaMarket) {
+              setEnableSeller(true);
+              setNavbarType(2);
+              navigation.navigate("Dashboard");
+            } else {
+              navigation.navigate("UserLogout");
+            }
           }}
         />
       </View>
-      <View style={styles.top_bar_home_down}>
-        <View style={styles.home_icon}>
+      <View style={st.top_bar_home_down}>
+        <View style={st.home_icon}>
           <FlyIcon />
         </View>
         <Text style={{ fontSize: 12, color: "#FF6A00" }}>
@@ -38,13 +52,39 @@ export const HomeTopBar = ({ user }) => {
 
 export const TuMarketTopBar = ({ title = "Tu Market!", hour = false }) => {
   return (
-    <View style={styles.top_bar_home}>
-      <View style={styles.top_bar_home_left}>
+    <View style={st.top_bar_home}>
+      <View style={st.top_bar_home_left}>
         <Text style={{ fontSize: 24, marginBottom: 6 }}>{title}</Text>
         {hour ? <Text>{hour}</Text> : null}
       </View>
-      <View style={styles.top_bar_home_down}>
-        <View style={styles.home_icon}>
+      <View style={st.top_bar_home_down}>
+        <View style={st.home_icon}>
+          <FlyIcon />
+        </View>
+        <Text style={{ fontSize: 12, color: "#FF6A00" }}>
+          Cabimas, Los laureles
+        </Text>
+      </View>
+    </View>
+  );
+};
+export const TuMarketTopBarLogo = ({
+  title = "Faindit Market",
+  hour = false,
+  image,
+}) => {
+  return (
+    <View style={st.top_bar_home}>
+      <View style={st.tb_fmarket_ctn}>
+        <View style={st.tb_fmarket_left}>
+          <Image source={image} style={st.image} resizeMode="stretch" />
+        </View>
+        <View style={st.tb_fmarket_right}>
+          <Bell2 />
+        </View>
+      </View>
+      <View style={st.top_bar_home_down}>
+        <View style={st.home_icon}>
           <FlyIcon />
         </View>
         <Text style={{ fontSize: 12, color: "#FF6A00" }}>
@@ -57,17 +97,24 @@ export const TuMarketTopBar = ({ title = "Tu Market!", hour = false }) => {
 
 export const MarketTopBar = ({ navigation, setQrModal }) => {
   return (
-    <View style={styles.market_top_bar}>
-      <BigArrowBack />
-      <QR action={setQrModal} />
-      <BigHeart />
+    <View style={st.market_top_bar}>
+      <View style={st.mtb_left}>
+        <BigArrowBack />
+      </View>
+      <View style={st.mtb_mid}>
+        <QR action={setQrModal} />
+      </View>
+      <View style={st.mtb_right}>
+        <Flag />
+        <BigHeart />
+      </View>
     </View>
   );
 };
 export const MarketTopBarSmall = ({ navigation }) => {
   return (
-    <View style={styles.top_bar}>
-      <View style={styles.top_bar_left}>
+    <View style={st.top_bar}>
+      <View style={st.top_bar_left}>
         <TouchableOpacity
           onPress={() => {
             navigation.goBack();
@@ -76,10 +123,10 @@ export const MarketTopBarSmall = ({ navigation }) => {
           <Text color="#0067ce">Back</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.top_bar_mid}>
+      <View style={st.top_bar_mid}>
         <Text>QR</Text>
       </View>
-      <View style={styles.top_bar_right_D}>
+      <View style={st.top_bar_right_D}>
         <Text>Filter</Text>
       </View>
     </View>
@@ -88,18 +135,21 @@ export const MarketTopBarSmall = ({ navigation }) => {
 
 export const TuMarketItemTopBar = ({ navigation }) => {
   return (
-    <View style={styles.market_top_bar}>
+    <View style={st.market_top_bar}>
       <BigArrowBack />
-      <BigHeart />
+      <View>
+        <Flag />
+        <BigHeart />
+      </View>
     </View>
   );
 };
 
 export const DashboardTopBar = ({ navigate }) => {
   return (
-    <View style={styles.top_bar}>
+    <View style={st.top_bar}>
       <Text style={{ fontSize: 20 }}>T</Text>
-      <View style={styles.top_bar_right_C}>
+      <View style={st.top_bar_right_C}>
         <TouchableOpacity
           onPress={() => {
             navigate("Notifications");
@@ -115,10 +165,10 @@ export const DashboardTopBar = ({ navigate }) => {
 export const BackTopBar = ({ text }) => {
   const navigation = useNavigation();
   return (
-    <View style={styles.btb_ctn}>
+    <View style={st.btb_ctn}>
       <ArrowBack />
-      <View style={styles.btb_title_ctn}>
-        <Text style={styles.btb_title}>{text}</Text>
+      <View style={st.btb_title_ctn}>
+        <Text style={st.btb_title}>{text}</Text>
       </View>
     </View>
   );
@@ -127,13 +177,13 @@ export const BackTopBar = ({ text }) => {
 export const BackExploreTopBar = ({ navigation }) => {
   return (
     <TouchableOpacity
-      style={styles.top_bar}
+      style={st.top_bar}
       onPress={() => {
         navigation.goBack();
       }}
     >
       <Text color="#0067ce">Back</Text>
-      <View style={styles.top_bar_right_A}>
+      <View style={st.top_bar_right_A}>
         <Text>Modo Ejecutivo</Text>
       </View>
     </TouchableOpacity>
@@ -142,9 +192,9 @@ export const BackExploreTopBar = ({ navigation }) => {
 
 export const TopBarSellerInventory = ({ navigate }) => {
   return (
-    <View style={styles.top_bar}>
+    <View style={st.top_bar}>
       <Text style={{ fontSize: 20 }}>Deporte y Música</Text>
-      <View style={styles.top_bar_right_C}>
+      <View style={st.top_bar_right_C}>
         <TouchableOpacity
           onPress={() => {
             navigate("Notifications");
@@ -157,15 +207,15 @@ export const TopBarSellerInventory = ({ navigate }) => {
   );
 };
 
-export const TopBarAddItem = ({ navigation }) => {
+export const TopBarAddItem = ({ navigation, backTo = "Inventory" }) => {
   return (
-    <View style={styles.top_bar_addItem}>
+    <View style={st.top_bar_addItem}>
       <ArrowBack
         action={() => {
-          navigation.navigate("Inventory");
+          navigation.navigate(backTo);
         }}
       />
-      <Text style={styles.top_bar_addItem_mid_text}>Agregar Articulo</Text>
+      <Text style={st.top_bar_addItem_mid_text}>Agregar Articulo</Text>
       <Help />
     </View>
   );

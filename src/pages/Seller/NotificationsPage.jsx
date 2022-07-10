@@ -1,6 +1,6 @@
 import { View, Text, ScrollView } from 'react-native'
 import React, { useContext } from 'react'
-import styles from '../../sass/pages/Seller/notifications.sass'
+import st from '../../sass/pages/Seller/notifications.sass'
 import { NavBarGeneral } from '../../components/NavBar'
 import { Context } from '../../controllers/Context'
 import Notification from '../../components/Notification'
@@ -56,16 +56,16 @@ const NotificationsPage = ({ navigation }) => {
 
 
   return (
-    <View style={styles.g_container} >
-      <View style={styles.title_ctn} >
-        <Text style={styles.title} >Tus Notificaciones!</Text>
+    <View style={st.g_container} >
+      <View style={st.title_ctn} >
+        <Text style={st.title} >Tus Notificaciones!</Text>
       </View>
-      <ScrollView style={styles.scroll_container} >
+      <ScrollView style={st.scroll_container} >
         {data.map(item => (
           <Notification key={item.id} item={item} navigate={navigation.navigate} />
         ))}
       </ScrollView>
-      {enableSeller ? <NavBarGeneral navigation={navigation} active={1} /> : <NavBarGeneral navigation={navigation} active={3} />}
+      {enableSeller ? <NavBarGeneral navigation={navigation} active={3} /> : <NavBarGeneral navigation={navigation} active={3} />}
 
     </View>
   )

@@ -1,104 +1,115 @@
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  TextInput,
+} from "react-native";
 import React, { useState } from "react";
 import styles from "../sass/components/filterModal.sass";
 import { Check, FlyIcon, ModalCross, Star, Stars } from "./Icons";
 import Slider from "@react-native-community/slider";
 import { SmallerTag } from "./SearchDisplay";
 
-const FilterModal = ({ setModal }) => {
-  const [tagData, setTagData] = useState([
-    {
-      title: "Tecnologia",
-      body: "AD/Carrousel Promocional 1",
-      state: true,
-    },
-    {
-      title: "Ropa",
-      body: "AD/Carrousel Promocional 2",
-      state: false,
-    },
-    {
-      title: "Comida",
-      body: "AD/Carrousel Promocional 3",
-      state: false,
-    },
-    {
-      title: "Cocina",
-      body: "AD/Carrousel Promocional 4",
-      state: false,
-    },
-    {
-      title: "Electrodomesticos",
-      body: "AD/Carrousel Promocional 5",
-      state: false,
-    },
-    {
-      title: "Ropa",
-      body: "AD/Carrousel Promocional 6",
-      state: false,
-    },
-    {
-      title: "Comida",
-      body: "AD/Carrousel Promocional 7",
-      state: false,
-    },
-    {
-      title: "Decoracion",
-      body: "AD/Carrousel Promocional 8",
-      state: false,
-    },
-    {
-      title: "Ropa",
-      body: "AD/Carrousel Promocional 9",
-      state: false,
-    },
-    {
-      title: "Tecnologia",
-      body: "AD/Carrousel Promocional 10",
-      state: false,
-    },
-    {
-      title: "Electrodomesticos",
-      body: "AD/Carrousel Promocional 12",
-      state: false,
-    },
-    {
-      title: "Ropa",
-      body: "AD/Carrousel Promocional 13",
-      state: false,
-    },
-    {
-      title: "Comida",
-      body: "AD/Carrousel Promocional 14",
-      state: false,
-    },
-    {
-      title: "Tecnologia",
-      body: "AD/Carrousel Promocional 15",
-      state: false,
-    },
-    {
-      title: "Ropa",
-      body: "AD/Carrousel Promocional 16",
-      state: false,
-    },
-    {
-      title: "Comida",
-      body: "AD/Carrousel Promocional 17",
-      state: false,
-    },
-    {
-      title: "Cocina",
-      body: "AD/Carrousel Promocional 18",
-      state: false,
-    },
-  ]);
+const FilterModal = ({ setModal, tags,set }) => {
+  // const [tags, set] = useState([
+  //   {
+  //     title: "Tecnologia",
+  //     body: "AD/Carrousel Promocional 1",
+  //     state: true,
+  //   },
+  //   {
+  //     title: "Ropa",
+  //     body: "AD/Carrousel Promocional 2",
+  //     state: false,
+  //   },
+  //   {
+  //     title: "Comida",
+  //     body: "AD/Carrousel Promocional 3",
+  //     state: false,
+  //   },
+  //   {
+  //     title: "Cocina",
+  //     body: "AD/Carrousel Promocional 4",
+  //     state: false,
+  //   },
+  //   {
+  //     title: "Electrodomesticos",
+  //     body: "AD/Carrousel Promocional 5",
+  //     state: false,
+  //   },
+  //   {
+  //     title: "Ropa",
+  //     body: "AD/Carrousel Promocional 6",
+  //     state: false,
+  //   },
+  //   {
+  //     title: "Comida",
+  //     body: "AD/Carrousel Promocional 7",
+  //     state: false,
+  //   },
+  //   {
+  //     title: "Decoracion",
+  //     body: "AD/Carrousel Promocional 8",
+  //     state: false,
+  //   },
+  //   {
+  //     title: "Ropa",
+  //     body: "AD/Carrousel Promocional 9",
+  //     state: false,
+  //   },
+  //   {
+  //     title: "Tecnologia",
+  //     body: "AD/Carrousel Promocional 10",
+  //     state: false,
+  //   },
+  //   {
+  //     title: "Electrodomesticos",
+  //     body: "AD/Carrousel Promocional 12",
+  //     state: false,
+  //   },
+  //   {
+  //     title: "Ropa",
+  //     body: "AD/Carrousel Promocional 13",
+  //     state: false,
+  //   },
+  //   {
+  //     title: "Comida",
+  //     body: "AD/Carrousel Promocional 14",
+  //     state: false,
+  //   },
+  //   {
+  //     title: "Tecnologia",
+  //     body: "AD/Carrousel Promocional 15",
+  //     state: false,
+  //   },
+  //   {
+  //     title: "Ropa",
+  //     body: "AD/Carrousel Promocional 16",
+  //     state: false,
+  //   },
+  //   {
+  //     title: "Comida",
+  //     body: "AD/Carrousel Promocional 17",
+  //     state: false,
+  //   },
+  //   {
+  //     title: "Cocina",
+  //     body: "AD/Carrousel Promocional 18",
+  //     state: false,
+  //   },
+  // ]);
 
   const onPress = (index, item) => {
-    const copyData = [...tagData];
+    const copyData = [...tags];
     copyData.splice(index, 1, { ...item, state: !item.state });
-    setTagData(copyData);
+    set(copyData);
   };
+
+  const [inputs, setInputs] = useState({
+    left: "",
+    right: "",
+  });
 
   return (
     <View style={styles.filter_modal}>
@@ -117,10 +128,10 @@ const FilterModal = ({ setModal }) => {
           <Text style={styles.subtitle}>Ubicacion</Text>
           <Place />
           <Text style={styles.subtitle}>Rango de precio</Text>
-          <Price />
+          <Price inputs={inputs} setInputs={setInputs} />
           <Text style={styles.subtitle}>Categorias</Text>
           <View style={styles.tags_container}>
-            {tagData.map((item, index) => (
+            {tags.map((item, index) => (
               <SmallerTag
                 item={item}
                 index={index}
@@ -158,15 +169,29 @@ const Place = ({}) => {
 };
 export default FilterModal;
 
-const Price = ({}) => {
+const Price = ({ inputs, setInputs }) => {
   return (
     <View style={styles.price_ctn}>
       <View style={styles.price_box}>
-        <Text>0.00</Text>
+        <TextInput
+          value={inputs.left}
+          placeholder="0.00"
+          onChangeText={(text) => {
+            setInputs({ ...inputs, left: text });
+          }}
+          keyboardType="numeric"
+        />
       </View>
       <View style={styles.price_line}></View>
       <View style={styles.price_box}>
-        <Text>0.00</Text>
+      <TextInput
+          value={inputs.right}
+          placeholder="0.00"
+          onChangeText={(text) => {
+            setInputs({ ...inputs, right: text });
+          }}
+          keyboardType="numeric"
+        />
       </View>
     </View>
   );

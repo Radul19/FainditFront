@@ -9,21 +9,19 @@ import {
 import React, { useState } from "react";
 import {
   SearchBar,
-  TuMarketItem_C,
-  TuMarketItem_B,
-  TuMarketItem_A,
   DisplaySearch,
 } from "../../../components/SearchDisplay";
 import { NavBarGeneral } from "../../../components/NavBar";
 
-import st from "./tuMarket";
-import { TuMarketTopBar } from "../../../components/TopBar";
+import st from "./tuMarket.sass";
+import { TuMarketTopBar, TuMarketTopBarLogo } from "../../../components/TopBar";
 import { Tune } from "../../../components/Icons";
 
 import nivea1 from "../../../images/nivea1.png";
 import nivea2 from "../../../images/nivea2.png";
 import { BtnContact, BtnPublish } from "../../../components/Btns";
 import FilterModal from "../../../components/FilterModal";
+import fmarketlogo from "../../../images/fmarketbanner.png"
 
 const TuMarketPage = ({ navigation }) => {
   const [inputSearch, setInputSearch] = useState("");
@@ -121,16 +119,21 @@ const TuMarketPage = ({ navigation }) => {
     setFilterModal(true);
   };
 
+  const publishBtn = ()=>{
+    navigation.navigate("FmarketCreate_A")
+  }
+
   return (
     <View style={st.g_container}>
       <FilterContainer setModal={setFilterModal} visible={filterModal} />
       <ScrollView style={[st.g_container, { paddingTop: 20 }]}>
-        <TuMarketTopBar />
-        <View style={st.subtitle_ctn}>
-          <Text style={st.faindit_title}>Faindit</Text>
+        <TuMarketTopBarLogo image={fmarketlogo} />
+        {/* <View style={st.subtitle_ctn}>
           <Tune action={tunePress} />
+        </View> */}
+        <View style={{ paddingHorizontal: 20}}>
+          <SearchBar value={inputSearch} set={setInputSearch} />
         </View>
-        <SearchBar value={inputSearch} set={setInputSearch} />
         <Text style={{ fontWeight: "bold", marginLeft: 20 }}>
           Articulos publicados por otros usuarios
         </Text>
@@ -138,7 +141,7 @@ const TuMarketPage = ({ navigation }) => {
         <DisplaySearch data={dataItem} type="B" />
         <View style={{ height: 90 }}></View>
       </ScrollView>
-      <BtnPublish />
+      <BtnPublish action={publishBtn} />
       <NavBarGeneral navigation={navigation} active={2} />
     </View>
   );

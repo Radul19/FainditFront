@@ -89,6 +89,26 @@ export const JobTopBar = ({ title }) => {
   );
 };
 
+export const JobCreateTopBar = ({ title }) => {
+  return (
+    <View style={st.top_menu}>
+      <View style={st.tm_left_create}>
+        <IconBox>
+          <ArrowBack />
+        </IconBox>
+      </View>
+      <View style={st.tm_mid_create}>
+        <Text style={st.tm_title}>{title}</Text>
+      </View>
+      <View style={st.tm_right_create}>
+        <IconBox>
+          <Heart />
+        </IconBox>
+      </View>
+    </View>
+  );
+};
+
 export const IconBox = ({ children }) => {
   return <TouchableOpacity style={st.icon_box}>{children}</TouchableOpacity>;
 };
@@ -115,5 +135,40 @@ export const ProfileItem = ({ text }) => {
         <CheckCircle />
       </View>
     </View>
+  );
+};
+
+///////
+export const JobEdit = ({ title }) => {
+  const navigation = useNavigation();
+  return (
+    <TouchableOpacity style={st.job_res_ctn} onPress={()=>{
+      navigation.navigate("JobCreate")
+    }} >
+      <View style={st.jr_title_ctn}>
+        <Text color="#ffffff">{title}</Text>
+      </View>
+
+      <View style={st.jr_subtitle_ctn}>
+        <Text style={st.big_subtitle}>Cajero</Text>
+        <Text>2 hours ago</Text>
+      </View>
+
+      <View style={st.jr_addres_ctn}>
+        <View style={st.home_icon}>
+          <FlyIcon />
+        </View>
+        <Text style={{ fontSize: 12, color: "#FF6A00", marginLeft: 6 }}>
+          Cabimas, las 40, avenida universidad
+        </Text>
+      </View>
+
+      <Text style={st.jr_text}>$200</Text>
+      <Text style={st.jr_subtitle}>Description</Text>
+      <Text style={st.jr_text}>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Blandit orci
+        auctor netus morbi vitae netus elit amet turpis id nisi ipsum dolor.
+      </Text>
+    </TouchableOpacity>
   );
 };

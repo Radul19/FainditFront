@@ -1,5 +1,5 @@
 import { View, TouchableOpacity, Image } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 
 import st from "./extraData.sass";
 import Text from "../../../components/Text";
@@ -10,13 +10,24 @@ import { ArrowDown, BigArrowBack } from "../../../components/Icons";
 
 import himage from "../../../images/HimageCreate2.png";
 import vnzl from "../../../images/vnzla.png";
+import {
+  InputWide,
+  InputCountrySmall,
+  InputMultipleOptions,
+} from "../../../components/Inputs";
 
 const ExtraDataPage = ({ navigation }) => {
+  const [inputs, setInputs] = useState({
+    address: "",
+  });
+
+  const inputChange = (name, data) => setInputs({ ...inputs, [name]: data });
+
   return (
     <View style={st.g_container}>
-      <View style={st.absolute_arrow}>
+      {/* <View style={st.absolute_arrow}>
         <BigArrowBack />
-      </View>
+      </View> */}
       <Image source={logo} style={st.image} resizeMode="stretch" />
       <View style={st.g_container_scroll}>
         <View style={st.top}>
@@ -27,16 +38,30 @@ const ExtraDataPage = ({ navigation }) => {
           <View style={st.himage_ctn}>
             <Image style={st.himage} source={himage} />
           </View>
-          <InfoInput
-            text={"Direccion"}
-            placehold="Av. Universidad. Calle n4 "
+          <Text style={st.input_title}>Direccion</Text>
+          <InputWide
+            name="address"
+            value={inputs.address}
+            set={inputChange}
+            placehold="Av. Universidad calle n4"
           />
           <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginTop: 12,
+            }}
           >
-            <InfoIputFlag text={"Pais de origen"} placehold="Venezuela" />
+            <View>
+              <Text style={[st.input_title, { marginBottom: 6 }]}>
+                Pais de residencia
+              </Text>
+              <InputCountrySmall />
+            </View>
             <InfoInput text={"Fecha de nacimiento"} placehold="20/03/1997" />
           </View>
+          <Text style={[st.input_title, { marginTop: 12}]}>Sexo</Text>
+          <InputMultipleOptions />
 
           <View style={st.absolute_btn_bottom}>
             <BtnPrimaryW
@@ -48,14 +73,6 @@ const ExtraDataPage = ({ navigation }) => {
           </View>
 
           <View style={st.absolute_bottom_text_ctn}>
-            {/* <TouchableOpacity
-              style={st.register_text_ctn}
-              onPress={() => {
-                navigation.navigate("Verification");
-              }}
-            >
-              <Text style={st.register_text_back}>Regresar</Text>
-            </TouchableOpacity> */}
             <TouchableOpacity
               style={st.register_text_ctn}
               onPress={() => {
@@ -65,11 +82,6 @@ const ExtraDataPage = ({ navigation }) => {
               <Text style={st.register_text}>Omitir este paso</Text>
             </TouchableOpacity>
           </View>
-
-          {/* <View style={styles.bot_g_f_container}  >
-                        <TouchableOpacity style={styles.bot_g_f_btn} ><Text>G</Text></TouchableOpacity>
-                        <TouchableOpacity style={styles.bot_g_f_btn} ><Text>F</Text></TouchableOpacity>
-                    </View> */}
         </View>
         {/* <NavBarGeneral navigation={navigation} active={4} /> */}
       </View>

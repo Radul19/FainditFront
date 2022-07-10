@@ -1,5 +1,5 @@
 import { View, TouchableOpacity, Image, Modal } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import st from "./verification.sass";
 import Text from "../../../components/Text";
@@ -11,9 +11,19 @@ import { ArrowDown, BigArrowBack, Check } from "../../../components/Icons";
 import himage from "../../../images/HimageCreate2.png";
 import vnzl from "../../../images/vnzla.png";
 
+import { Context } from "../../../controllers/Context";
+import { InputWide } from "../../../components/Inputs";
+
 const VerificationPage = ({ navigation }) => {
   const [modal, setModal] = useState(false);
   const [modal_2, setModal_2] = useState(false);
+
+  const [inputs, setInputs] = useState({
+    num: "",
+    card_id:"",
+  });
+
+  const inputChange = (name, data) => setInputs({ ...inputs, [name]: data });
 
   return (
     <View style={st.g_container}>
@@ -27,16 +37,14 @@ const VerificationPage = ({ navigation }) => {
         visible={modal_2}
         navigation={navigation}
       />
-      <View style={st.absolute_arrow}>
+      {/* <View style={st.absolute_arrow}>
         <BigArrowBack />
-      </View>
+      </View> */}
       <Image source={logo} style={st.image} resizeMode="stretch" />
       <View style={st.g_container_scroll}>
         <View style={st.top}>
           <Text style={st.top_title_small}>Datos Complementarios</Text>
-          <Text style={st.top_text}>
-            Aliquam ultrices suspendisse varius.
-          </Text>
+          <Text style={st.top_text}>Aliquam ultrices suspendisse varius.</Text>
         </View>
         <View style={st.bot}>
           <View style={st.himage_ctn}>
@@ -49,12 +57,36 @@ const VerificationPage = ({ navigation }) => {
           <View style={st.info_bar}>
             <TouchableOpacity style={st.num_ctn}>
               <Image source={vnzl} />
-              <Text style={{ marginLeft: 5 }}>+58</Text>
               <ArrowDown />
             </TouchableOpacity>
-            <Text style={st.phone_num}>888 8888</Text>
-            <View style={st.check}>
-              <Check />
+            <View style={st.num_input_ctn}>
+              <InputWide
+                name="num"
+                value={inputs.num}
+                set={inputChange}
+                placehold="888 8888"
+              />
+              <View style={st.check}>
+                <Check color="#ff6a00" />
+              </View>
+            </View>
+          </View>
+          <Text style={{ marginTop: 12,marginBottom:-12, fontWeight:"bold" }}>Ingresar documento de Identidad</Text>
+          <View style={st.info_bar}>
+            <TouchableOpacity style={st.id_selector_ctn}>
+              <Text style={{marginLeft:6}} >V</Text>
+              <ArrowDown />
+            </TouchableOpacity>
+            <View style={st.num_input_ctn}>
+              <InputWide
+                name="num"
+                value={inputs.num}
+                set={inputChange}
+                placehold="31.895.717"
+              />
+              <View style={st.check}>
+                <Check color="#ff6a00" />
+              </View>
             </View>
           </View>
 
@@ -67,7 +99,7 @@ const VerificationPage = ({ navigation }) => {
             />
           </View>
 
-          <View style={st.absolute_bottom_text_ctn}>
+          {/* <View style={st.absolute_bottom_text_ctn}>
             <TouchableOpacity
               style={st.register_text_ctn}
               onPress={() => {
@@ -76,7 +108,7 @@ const VerificationPage = ({ navigation }) => {
             >
               <Text style={st.register_text}>Omitir este paso</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
 
           {/* <View style={styles.bot_g_f_container}  >
                         <TouchableOpacity style={styles.bot_g_f_btn} ><Text>G</Text></TouchableOpacity>
@@ -178,7 +210,10 @@ const VerifyModal_1 = ({ setModal, visible, setModal_2 }) => {
   );
 };
 import checkbox from "../../../images/check_circle.png";
+
 const VerifyModal_2 = ({ setModal, visible, navigation }) => {
+  const { setAuthFaMarket } = useContext(Context);
+
   return (
     <Modal
       animationType="slide"
@@ -201,6 +236,7 @@ const VerifyModal_2 = ({ setModal, visible, navigation }) => {
             <BtnPrimaryW
               text={"Continuar"}
               action={() => {
+                setAuthFaMarket(true);
                 navigation.navigate("Topics");
               }}
             />

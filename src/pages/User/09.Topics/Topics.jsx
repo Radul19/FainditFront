@@ -1,7 +1,7 @@
 import { View, TouchableOpacity, Image, ScrollView } from "react-native";
 import React, { useState } from "react";
 
-import st from "./userLogout.sass";
+import st from "./topics.sass";
 import Text from "../../../components/Text";
 import { NavBarGeneral } from "../../../components/NavBar";
 import { BtnPrimaryW, BtnSecondaryW } from "../../../components/Btns";
@@ -113,6 +113,8 @@ const TopicsPage = ({ navigation }) => {
     setTagData(copyData);
   };
 
+  const [input, setInput] = useState("second")
+
   return (
     <View style={st.g_container}>
       <Image source={logo} style={st.image} resizeMode="stretch" />
@@ -125,7 +127,7 @@ const TopicsPage = ({ navigation }) => {
           <View style={st.himage_ctn_2}>
             <Image style={st.himage} source={himage} />
           </View>
-          <SearchBar placehold="Busca entre distintos intereses" />
+          <SearchBar placehold="Busca entre distintos intereses" value={input} set={setInput} />
           <Text style={{ marginBottom: 16 }}>
             Escoge entre distintos intereses para personalizar tu inicio
           </Text>
@@ -143,7 +145,7 @@ const TopicsPage = ({ navigation }) => {
 
           <View style={st.bot_2_btn}>
             <BtnPrimaryW
-              text={"Ingresar"}
+              text={"Ir a inicio"}
               action={() => {
                 navigation.navigate("User");
               }}
@@ -161,7 +163,7 @@ const TopicsPage = ({ navigation }) => {
               <Text style={st.register_text}>Omitir</Text>
             </TouchableOpacity>
           </View>
-          <View style={{height:100}} ></View>
+          {/* <View style={{height:100}} ></View> */}
         </ScrollView>
       </View>
     </View>

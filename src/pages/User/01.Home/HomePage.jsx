@@ -1,7 +1,5 @@
 import {
   View,
-  StatusBar,
-  BackHandler,
   TouchableOpacity,
   Dimensions,
   ScrollView,
@@ -10,7 +8,7 @@ import {
 } from "react-native";
 import Text from "../../../components/Text";
 import React, { useEffect, useRef, useState } from "react";
-import styles from "./home.sass";
+import st from "./home.sass";
 import Carousel from "react-native-snap-carousel";
 import {
   DisplayMarketSearch,
@@ -18,9 +16,14 @@ import {
   DisplayTags,
   SearchBar,
 } from "../../../components/SearchDisplay";
-import { HomeTopBar, BackExploreTopBar } from "../../../components/TopBar";
+import { HomeTopBar } from "../../../components/TopBar";
 import { NavBarGeneral } from "../../../components/NavBar";
-import { ArrowBack, SadFace, SearchIcon, Tune } from "../../../components/Icons";
+import {
+  ArrowBack,
+  SadFace,
+  SearchIcon,
+  Tune,
+} from "../../../components/Icons";
 import FilterModal from "../../../components/FilterModal";
 
 import prom from "../../../images/promotion.png";
@@ -36,6 +39,13 @@ import farmacias from "../../../images/farmacias.png";
 
 import nivea1 from "../../../images/nivea1.png";
 import nivea2 from "../../../images/nivea2.png";
+import {
+  categoriesList,
+  outsideCategories,
+  tags
+} from "../../../controllers/categories";
+const wWidth = Dimensions.get("window").width;
+const wHeight = Dimensions.get("window").height;
 
 ///// TEMPORAL
 import { LogBox } from "react-native";
@@ -49,6 +59,20 @@ LogBox.ignoreLogs([
 const windowWidth = Dimensions.get("window").width;
 
 const HomePage = ({ navigation }) => {
+  const toggleFilterState = () => {
+    setFilterModal(true);
+  };
+
+  const activeSearchState = () => {
+    setHideTop(true);
+    setSearchState(true);
+    setFilterState(false);
+  };
+
+  const onPressTag = (index) => {
+    setTagData([...data]);
+  };
+
   const data = [
     {
       title: "Aenean leo",
@@ -196,68 +220,9 @@ const HomePage = ({ navigation }) => {
     },
   ];
 
-  const [tagData, setTagData] = useState([
-    {
-      title: "Supermercados",
-      body: "AD/Carrousel Promocional 1",
-      imgUrl: supermarket,
-      state: true,
-    },
-    {
-      title: "Ferreterias",
-      body: "AD/Carrousel Promocional 2",
-      imgUrl: ferreteria,
-      state: false,
-    },
-    {
-      title: "Restaurantes",
-      body: "AD/Carrousel Promocional 3",
-      imgUrl: food,
-      state: false,
-    },
-    {
-      title: "Ropa",
-      body: "AD/Carrousel Promocional 4",
-      imgUrl: ropa,
-      state: false,
-    },
-    {
-      title: "Tecnologia",
-      body: "AD/Carrousel Promocional 5",
-      imgUrl: tecnologia,
-      state: false,
-    },
-    {
-      title: "Farmacias",
-      body: "AD/Carrousel Promocional 6",
-      imgUrl: farmacias,
-      state: false,
-    },
-    {
-      title: "Lorem Ipsum",
-      body: "AD/Carrousel Promocional 7",
-      imgUrl: supermarket,
-      state: false,
-    },
-    {
-      title: "Lorem Ipsum",
-      body: "AD/Carrousel Promocional 8",
-      imgUrl: supermarket,
-      state: false,
-    },
-    {
-      title: "Lorem Ipsum",
-      body: "AD/Carrousel Promocional 9",
-      imgUrl: supermarket,
-      state: false,
-    },
-    {
-      title: "Lorem Ipsum",
-      body: "AD/Carrousel Promocional 10",
-      imgUrl: supermarket,
-      state: false,
-    },
-  ]);
+  const [tagData, setTagData] = useState(tags);
+  const isCarousel = useRef(null);
+  const inputRef = useRef(null);
 
   const [hideTop, setHideTop] = useState(false);
   const [filterState, setFilterState] = useState(false);
@@ -269,71 +234,87 @@ const HomePage = ({ navigation }) => {
 
   const [index, setIndex] = useState(0);
 
-  const isCarousel = useRef(null);
-  const inputRef = useRef(null);
-
-  const toggleFilterState = () => {
-    // if (filterState) {
-    //   // setHideTop(false)
-    //   inputRef.current.focus();
-    //   setFilterState(false);
-    // } else {
-    //   setHideTop(true);
-    //   setFilterState(true);
-    //   setSearchState(false);
-    // }
-    setFilterModal(true);
-  };
-
-  const activeSearchState = () => {
-    setHideTop(true);
-    setSearchState(true);
-    setFilterState(false);
-    // setTimeout(() => {
-    //   if (!inputRef.current.activeElement) {
-    //     inputRef.current.focus()
-    //   }
-    // }, 1000);
-  };
-
-  const onPressTag = (index) => {
-    // const copyData = data
-    // copyData[index] = { ...copyData[index], state: !copyData[index].state }
-    // setData(copyData)
-
-    setTagData([...data]);
-  };
+  ////////////////////////////////
+  const [category, setCategory] = useState(categoriesList);
+  const [backState, setBackState] = useState([]);
+  const [actualSub, setActualSub] = useState({});
+  const [searchResults, setSearchResults] = useState(null);
+  const [searchType, setSearchType] = useState(true);
 
   const hideTopPress = () => {
-    setHideTop(false);
-    setFilterState(false);
-    setSearchState(false);
+    let copy = backState;
+    switch (copy.length) {
+      case 4:
+        setCategory(categoriesList[copy[0]].sub[copy[1]].sub[copy[2]].sub);
+        break;
+      case 3:
+        setCategory(categoriesList[copy[0]].sub[copy[1]].sub);
+        break;
+      case 2:
+        setCategory(categoriesList[copy[0]].sub);
+        break;
+      case 1:
+        setCategory(categoriesList);
+        break;
+      case 0:
+        setHideTop(false);
+        setFilterState(false);
+        setSearchState(false);
+        break;
+
+      default:
+        break;
+    }
+    setMomenty(false)
+    copy.pop();
+    setBackState(copy);
+
   };
 
-  const consol = () => {
-    // console.log(filterState);
-    // console.log(tagData[0].state);
-    // console.log('///');
-    // console.log(((searchInput !== "") || (filterState)) && !tagData[0].state);
-    console.log(searchInput === "" || hideTop ? true : false);
-    // console.log(searchInput === "" ? true : false)
+  const categoryOnPress = (subs, id, type) => {
+    setHideTop(true);
+    setCategory(subs);
+    if (id) {
+      //// tags
+      const copyData = [...tags];
+      copyData.splice(type, 1, { ...tags[type], state: true});
+      setTagData(copyData);
+      ////
+      setBackState([...backState, type]);
+      setActualSub(subs);
+    } else {
+      setBackState([...backState, type]);
+    }
   };
+
+  const explorePress = () => {
+    // console.log(backState);
+    setHideTop(true);
+    setCategory(categoriesList);
+  };
+
+  const showMarkets = ()=>{
+    setHideTop(true)
+    setCategory(undefined)
+    setMomenty(true)
+  }
+  const showAll = ()=>{
+    setHideTop(true)
+    setCategory(undefined)
+  }
+
+  const [momenty, setMomenty] = useState(false)
+
 
   return (
-    <View style={styles.g_container}>
-      <FilterContainer setModal={setFilterModal} visible={filterModal} />
-      <ScrollView
-        style={styles.scrollview}
-        //  stickyHeaderIndices={!hideTop ? null : [0]}
-      >
+    <View style={st.g_container}>
+      <FilterContainer setModal={setFilterModal} visible={filterModal}  tags={tagData} set={setTagData} />
+      <ScrollView style={st.scrollview}>
         {!hideTop ? (
           <>
             <HomeTopBar />
-            {false ? <Text style={styles.user_text}>Hola Julieta!</Text> : null}
           </>
-        ) : // <View style={{ marginTop: 20 }} />
-        null}
-        {/* <ScrollView style={styles.scrollview} > */}
+        ) : null}
 
         {/* Carousel Promotions */}
         {!hideTop ? (
@@ -352,33 +333,41 @@ const HomePage = ({ navigation }) => {
             }}
           />
         ) : null}
-        <View>
-          <View style={styles.searchBtn_ctn}>
-            {!hideTop ? (
-              <Text>Faindit</Text>
-            ) : (
-              <ArrowBack action={hideTopPress} />
-            )}
-            {!hideTop ? null : (
-              <Text style={styles.faindit_title}>Faindit</Text>
-            )}
+        <View style={{ marginBottom: 10 }}>
+          <View style={st.searchBtn_ctn}>
+            {!hideTop ? <View></View> : <ArrowBack action={hideTopPress} />}
+            {!hideTop ? null : <Text style={st.faindit_title}>Faindit</Text>}
             <Tune action={toggleFilterState} state={filterState} />
           </View>
-          <SearchBar
-            value={searchInput}
-            set={setSearchInput}
-            onFocus={activeSearchState}
-            innerRef={inputRef}
-          />
+          {category === undefined && hideTop ? (
+            <Carousel
+              layout="default"
+              layoutCardOffset={9}
+              ref={isCarousel}
+              data={data}
+              renderItem={CarouselCardItem}
+              sliderWidth={windowWidth}
+              itemWidth={windowWidth}
+              inactiveSlideShift={0}
+              useScrollView={true}
+              onSnapToItem={(index) => {
+                setIndex(index);
+              }}
+            />
+          ) : null}
+          <View style={{ paddingHorizontal: 20 }}>
+            <SearchBar
+              value={searchInput}
+              set={setSearchInput}
+              onFocus={activeSearchState}
+              innerRef={inputRef}
+            />
+          </View>
         </View>
 
-        <TouchableOpacity
-          style={[styles.searchBtn_ctn, { marginBottom: 10 }]}
-          onPress={consol}
-        >
-          <Text>Explora hoy</Text>
-        </TouchableOpacity>
-        {searchState ? (
+        {/* RESULT STARTS */}
+
+        {/* {searchState ? (
           <DisplayTags data={tagData} setData={setTagData} type="S" />
         ) : null}
         {!hideTop && !filterState && searchInput === "" ? (
@@ -398,19 +387,65 @@ const HomePage = ({ navigation }) => {
           <DisplaySearch data={dataItem} />
         ) : null}
         {searchInput === "" && hideTop ? <RecentSearch /> : null}
-        {/* {(searchInput === "" && hideTop) ? <RecentSearch /> : null} */}
-        {searchInput == "x" || filterState ? <NotFoundResult /> : null}
+        {searchInput == "x" || filterState ? <NotFoundResult /> : null} */}
 
-        {/* {hideTop && !tagData[0].state ? <DisplaySearch data={dataMarket} type="A" /> : null}
-        {hideTop && tagData[0].state ? <DisplayMarketSearch data={dataMarket} /> : null} */}
+        {/* ////////////////////////////////////////////////////// */}
 
-        {/* {!hideTop ?
-          <ScrollView horizontal={true} >
-            <DisplayTags data={tagData} setData={setTagData} type="B" />
-          </ScrollView>
-          : null} */}
+        {/* <DisplayCategories
+          category={category}
+          action={categoryOnPress}
+          hide={hideTop}
+        /> */}
+        {/* {hideTop ? null : <DisplayCategories />} */}
+        {/* {hideTop? null : null} */}
 
-        <View style={styles.search_ctn}></View>
+        {/* ////////////////////////////////////////////////////// */}
+
+        {category === undefined & hideTop && !momenty ? (
+          <View style={st.selector_ctn}>
+            <CheckCircle
+              text="Comercio"
+              active={searchType}
+              set={setSearchType}
+            />
+            <CheckCircle
+              text="Articulos"
+              active={!searchType}
+              set={setSearchType}
+            />
+          </View>
+        ) : null}
+
+        <View style={st.g_categories_ctn}>
+          {hideTop ? (
+            <>
+              {category === undefined ? (
+                <CompleteSearch
+                  market={dataMarket}
+                  items={dataItem}
+                  bool={searchType}
+                />
+              ) : null}
+              <DisplayCategories
+                categories={category}
+                action={categoryOnPress}
+                hide={hideTop}
+              />
+            </>
+          ) : (
+            <>
+              <WideCategoryItem2 item={outsideCategories[0]} action={showAll} />
+              <CategoryItem item={outsideCategories[1]} action={showAll} />
+              <CategoryItem item={outsideCategories[2]} action={showMarkets} />
+              <WideCategoryItem
+                item={outsideCategories[3]}
+                action={explorePress}
+              />
+            </>
+          )}
+        </View>
+
+        <View style={st.search_ctn}></View>
       </ScrollView>
       <NavBarGeneral navigation={navigation} active={1} />
     </View>
@@ -419,9 +454,9 @@ const HomePage = ({ navigation }) => {
 
 const CarouselCardItem = ({ item, index }) => {
   return (
-    <View style={styles.promotion_ctn} key={index}>
+    <View style={st.promotion_ctn} key={index}>
       <Image
-        style={styles.image_promotion}
+        style={st.image_promotion}
         source={item.imgUrl}
         resizeMode="contain"
       />
@@ -431,9 +466,9 @@ const CarouselCardItem = ({ item, index }) => {
 
 const RecentSearch = () => {
   return (
-    <View style={styles.rs_ctn}>
-      <Text style={styles.rs_title}>Busqueda Reciente</Text>
-      <View style={styles.rs_sub_ctn}>
+    <View style={st.rs_ctn}>
+      <Text style={st.rs_title}>Busqueda Reciente</Text>
+      <View style={st.rs_sub_ctn}>
         <RecentSearchItem />
         <RecentSearchItem />
         <RecentSearchItem />
@@ -446,22 +481,22 @@ const RecentSearch = () => {
 
 const RecentSearchItem = () => {
   return (
-    <View style={styles.rs_item}>
+    <View style={st.rs_item}>
       <SearchIcon size="14" />
-      <Text style={styles.rs_item_text}>Some text here</Text>
+      <Text style={st.rs_item_text}>Some text here</Text>
     </View>
   );
 };
 
 const NotFoundResult = () => {
   return (
-    <View style={styles.nf_ctn}>
+    <View style={st.nf_ctn}>
       <Text>No se han encontrado resultados</Text>
-      <View style={styles.nf_inside_ctn}>
-        <View style={styles.nf_sadface}>
+      <View style={st.nf_inside_ctn}>
+        <View style={st.nf_sadface}>
           <SadFace size="50" />
         </View>
-        <Text style={styles.nf_title}>
+        <Text style={st.nf_title}>
           No hemos conseguido resultados relacionados
         </Text>
         <Text>
@@ -473,7 +508,7 @@ const NotFoundResult = () => {
   );
 };
 
-const FilterContainer = ({ setModal, visible }) => {
+const FilterContainer = ({ setModal, visible,tags,set }) => {
   return (
     <Modal
       animationType="slide"
@@ -483,11 +518,113 @@ const FilterContainer = ({ setModal, visible }) => {
         Alert.alert("Modal has been closed.");
         // setModalVisible(!modalVisible);
       }}
-      style={styles.modal}
+      style={st.modal}
     >
-      <FilterModal setModal={setModal} />
+      <FilterModal setModal={setModal} tags={tags} set={set} />
     </Modal>
   );
 };
 
+///// WC
+const DisplayCategories = ({ categories, action }) => {
+  return (
+    <>
+      {categories === undefined
+        ? null
+        : categories.map((item, index) => (
+            <CategoryItem item={item} key={item.title} action={action} />
+          ))}
+    </>
+  );
+};
+const WideCategoryItem = ({ action, item }) => {
+  return (
+    <TouchableOpacity
+      style={st.wide_category_ctn}
+      onPress={() => {
+        action(categoriesList);
+      }}
+    >
+      <Text>{item.title}</Text>
+    </TouchableOpacity>
+  );
+};
+const WideCategoryItem2 = ({ action, item }) => {
+  return (
+    <TouchableOpacity
+      style={st.wide_category_ctn}
+      onPress={action}
+    >
+      <Text>{item.title}</Text>
+    </TouchableOpacity>
+  );
+};
+
+const CategoryItem = ({ item, action }) => {
+  return (
+    <TouchableOpacity
+      style={st.category_ctn}
+      onPress={() => {
+        // console.log(item);
+        action(item.sub, item.id, item.type);
+      }}
+    >
+      <Text>{item.title}</Text>
+    </TouchableOpacity>
+  );
+};
+const DisplaySubCategories = () => {
+  return (
+    <View>
+      {category.map((item, index) => (
+        <CategoryItem title={item.title} key={item.title} />
+      ))}
+    </View>
+  );
+};
 export default HomePage;
+
+//// NEW
+const CompleteSearch = ({ bool, market, items }) => {
+  return (
+    <>
+      {bool ? (
+        <View style={st.test}>
+          <DisplayMarketSearch data={market} />
+        </View>
+      ) : (
+        <View style={st.test}>
+          <DisplaySearch data={items} />
+        </View>
+      )}
+    </>
+  );
+};
+
+const CheckCircle = ({ text, active, set }) => {
+  const press = () => {
+    set((prev) => !prev);
+  };
+
+  return (
+    <TouchableOpacity style={st.cc_ctn} onPress={press}>
+      {active ? (
+        <>
+          <View style={st.cc_circle_active}>
+            <View
+              style={[st.cc_circle_active_inside, { borderRadius: 100 }]}
+            ></View>
+          </View>
+          <Text style={st.cc_text_active}>{text}</Text>
+        </>
+      ) : (
+        <>
+          <View style={st.cc_circle}>
+            <View style={[st.cc_circle_inside, { borderRadius: 100 }]}></View>
+          </View>
+          <Text style={st.cc_text}>{text}</Text>
+        </>
+      )}
+    </TouchableOpacity>
+  );
+};

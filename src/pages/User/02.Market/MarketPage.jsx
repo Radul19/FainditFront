@@ -290,7 +290,9 @@ const MarketPage = ({ navigation }) => {
                 </Text>
               </TouchableOpacity>
             </View>
+            <View style={{paddingHorizontal:10}} >
             <SearchBar />
+            </View>
             <View style={st.scroll_subtitle}>
               <Text>Explora nuestras categorias</Text>
               <Tune

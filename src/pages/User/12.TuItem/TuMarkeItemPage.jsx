@@ -21,43 +21,6 @@ import {
 import image from "../../../images/girl.png";
 
 const TuMarkeItemPage = ({ navigation }) => {
-  const data = [
-    {
-      title: "Aenean leo",
-      body: "AD/Carrousel Promocional 1",
-      imgUrl: "https://picsum.photos/id/11/200/300",
-    },
-    {
-      title: "In turpis",
-      body: "AD/Carrousel Promocional 2",
-      imgUrl: "https://picsum.photos/id/10/200/300",
-    },
-    {
-      title: "Lorem Ipsum",
-      body: "AD/Carrousel Promocional 3",
-      imgUrl: "https://picsum.photos/id/12/200/300",
-    },
-    {
-      title: "Lorem Ipsum",
-      body: "AD/Carrousel Promocional 4",
-      imgUrl: "https://picsum.photos/id/12/200/300",
-    },
-    {
-      title: "Lorem Ipsum",
-      body: "AD/Carrousel Promocional 5",
-      imgUrl: "https://picsum.photos/id/12/200/300",
-    },
-    {
-      title: "Lorem Ipsum",
-      body: "AD/Carrousel Promocional 6",
-      imgUrl: "https://picsum.photos/id/12/200/300",
-    },
-    {
-      title: "Lorem Ipsum",
-      body: "AD/Carrousel Promocional 7",
-      imgUrl: "https://picsum.photos/id/12/200/300",
-    },
-  ];
 
   const [contact, setContact] = useState(false);
 
@@ -81,7 +44,7 @@ const TuMarkeItemPage = ({ navigation }) => {
         </View>
         <View style={st.middle}>
           <Text style={st.middle_name}>Crema Nivea Cellular</Text>
-          <Text style={st.middle_price}>Precio: $$$ o Bsf</Text>
+          <Text style={st.middle_price}>Precio: $$$ o Bs</Text>
           <Text style={st.middle_description}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
             curabitur eget faucibus dui in. Sapien tempus risus non turpis eget

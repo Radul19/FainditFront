@@ -29,6 +29,11 @@ import UserID3 from './src/pages/Verifications/03.UserID3/UserID3';
 import UserID4 from './src/pages/Verifications/04.UserID4/UserID4';
 import UserID5 from './src/pages/Verifications/05.UserID5/UserID5';
 
+import FmarketCreate_A from './src/pages/User/14.TuMarketCreateItem/FmarketCreate_A'
+import FmarketCreate_B from './src/pages/User/14.TuMarketCreateItem/FmarketCreate_B'
+import FmarketCreate_C from './src/pages/User/14.TuMarketCreateItem/FmarketCreate_C'
+import FmarketCreate_D from './src/pages/User/14.TuMarketCreateItem/FmarketCreate_D'
+
 //// VERIFY JOBS
 import VerifyCv1 from './src/pages/VerifyCv/01.VerifyCv/VerifyCv1';
 import VerifyCv2 from './src/pages/VerifyCv/02.VerifyCv/VerifyCv2';
@@ -42,6 +47,9 @@ import JobSearch from './src/pages/Jobs/01.JobSearch/JobSearch';
 import JobView from './src/pages/Jobs/02.JobView/JobView';
 import JobApply from './src/pages/Jobs/03.JobApply/JobApply';
 import JobSuccess from './src/pages/Jobs/04.JobSucces/JobSuccess';
+import JobAdmin from './src/pages/Jobs/05.JobAdmin/JobAdmin';
+import JobCreate from './src/pages/Jobs/06.JobCreate/JobCreate';
+import JobPrice from './src/pages/Jobs/07.JobPrice/JobPrice';
 
 /////
 import DashboardPage from './src/pages/Seller/DashboardPage';
@@ -69,12 +77,15 @@ const Stack = createNativeStackNavigator();
 export default App = () => {
 
 
-  useEffect(() => {
-    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => true)
-    return () => backHandler.remove()
-  }, [])
+  ///// BACK BTN ANDROID
+  // useEffect(() => {
+  //   const backHandler = BackHandler.addEventListener('hardwareBackPress', () => true)
+  //   return () => backHandler.remove()
+  // }, [])
 
   const [enableSeller, setEnableSeller] = useState(false)
+  const [authFaMarket, setAuthFaMarket] = useState(false)
+  const [authCv, setAuthCv] = useState(false)
 
   const [navbarType, setNavbarType] = useState(1)
 
@@ -83,7 +94,7 @@ export default App = () => {
       navbarType,
       setNavbarType,
       enableSeller,
-      setEnableSeller
+      setEnableSeller, authFaMarket, setAuthFaMarket, authCv, setAuthCv
     }} >
       <NavigationContainer>
         <Stack.Navigator
@@ -92,7 +103,7 @@ export default App = () => {
             headerShown: false
           }}
         >
-          <Stack.Screen name="JobView" component={JobView} />
+          {/* <Stack.Screen name="JobView" component={JobView} /> */}
           {/* USER FLOW */}
           <Stack.Screen name="Home" component={HomePage} />
           <Stack.Screen name="Onboarding" component={OnboardingPage} />
@@ -103,14 +114,20 @@ export default App = () => {
           <Stack.Screen name="UserLogout" component={UserLogoutPage} />
           <Stack.Screen name="Register" component={RegisterPage} />
           <Stack.Screen name="Verification" component={VerificationPage} />
-          <Stack.Screen name="Login" component={LoginPage} />
+          {/* <Stack.Screen name="Login" component={LoginPage} /> */}
           <Stack.Screen name="User" component={UserPage} />
           <Stack.Screen name="TuMarketItem" component={TuMarkeItemPage} />
           <Stack.Screen name="ExtraData" component={ExtraDataPage} />
-          <Stack.Screen name="Topics" component={TopicsPage} />
+          <Stack.Screen name="Topics" component={TopicsPage} />  
+
+          {/* TU MARKET CREATE ITEM */}
+          <Stack.Screen name="FmarketCreate_A" component={FmarketCreate_A} />  
+          <Stack.Screen name="FmarketCreate_B" component={FmarketCreate_B} />  
+          <Stack.Screen name="FmarketCreate_C" component={FmarketCreate_C} />  
+          <Stack.Screen name="FmarketCreate_D" component={FmarketCreate_D} />  
 
           {/* VERIFICATION */}
-          {/* <Stack.Screen name="UserID_1" component={UserID1} /> */}
+          <Stack.Screen name="UserID_1" component={UserID1} />
           <Stack.Screen name="UserID_2" component={UserID2} />
           <Stack.Screen name="UserID_3" component={UserID3} />
           <Stack.Screen name="UserID_4" component={UserID4} />
@@ -121,13 +138,18 @@ export default App = () => {
           <Stack.Screen name="VerifyCv2" component={VerifyCv2} />
           <Stack.Screen name="VerifyCv3" component={VerifyCv3} />
           <Stack.Screen name="VerifyCv4" component={VerifyCv4} />
-          <Stack.Screen name="VerifyCv5" component={VerifyCv5} />  
+          <Stack.Screen name="VerifyCv5" component={VerifyCv5} />
+          <Stack.Screen name="JobAdmin" component={JobAdmin} />
+          {/* <Stack.Screen name="JobAdmin" component={JobAdmin} />
+          <Stack.Screen name="JobAdmin" component={JobAdmin} /> */}
 
           {/* JOBS */}
           <Stack.Screen name="JobSearch" component={JobSearch} />
-          {/* <Stack.Screen name="JobView" component={JobView} /> */}
+          <Stack.Screen name="JobView" component={JobView} />
           <Stack.Screen name="JobApply" component={JobApply} />
           <Stack.Screen name="JobSuccess" component={JobSuccess} />
+          <Stack.Screen name="JobCreate" component={JobCreate} />
+          <Stack.Screen name="JobPrice" component={JobPrice} />
 
 
 

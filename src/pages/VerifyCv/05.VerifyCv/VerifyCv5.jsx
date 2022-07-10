@@ -1,26 +1,23 @@
 import { View, Image, TouchableOpacity } from "react-native";
 import Text from "../../../components/Text";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import st from "./verifyCv5.sass";
 import VerifyIdBack from "../../../components/VerifyIdBack";
 import { Edit, Mail, PhoneClear } from "../../../components/Icons";
 
-import himage from "../../../images/idcard.png";
-import vnzl from "../../../images/vnzla.png";
 import { BtnPrimaryW } from "../../../components/Btns";
-import { SearchBar, SmallerTag } from "../../../components/SearchDisplay";
+import {  SmallerTag } from "../../../components/SearchDisplay";
 import {
-  CheckCircleDouble,
-  InputNormal,
-  InputOptions,
   ItemExpEdit,
-  PlusText,
 } from "../CvItems";
-
-import { CrossTag } from "../01.VerifyCv/VerifyCv1";
+import { Context } from "../../../controllers/Context";
 
 const VerifyCv5 = ({ navigation }) => {
+
+  const {setAuthCv} = useContext(Context)
+
   const nextPage = () => {
+    setAuthCv(true)
     navigation.navigate("User");
   };
 
@@ -132,7 +129,7 @@ const VerifyCv5 = ({ navigation }) => {
       <Text style={st.subtitle}>Aptitudes</Text>
       <View style={st.cross_tag_ctn}>
         {tagData.map((item, index) => (
-          <SmallerTag item={item} index={item.body} />
+          <SmallerTag item={item} key={item.body} />
         ))}
       </View>
 
@@ -176,7 +173,7 @@ const VerifyCv5 = ({ navigation }) => {
       <Text style={st.subtitle}>Habilidades</Text>
       <View style={st.cross_tag_ctn}>
         {tagData2.map((item, index) => (
-          <SmallerTag item={item} index={item.body} />
+          <SmallerTag item={item} key={item.body} />
         ))}
       </View>
 

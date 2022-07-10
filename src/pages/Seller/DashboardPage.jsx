@@ -1,7 +1,7 @@
 import { View, ScrollView, TouchableOpacity, StyleSheet, Image } from 'react-native'
 import React, { useState } from 'react'
 import { DashboardTopBar } from '../../components/TopBar'
-import styles from '../../sass/pages/Seller/dashboard.sass'
+import st from '../../sass/pages/Seller/dashboard.sass'
 import { ArrowDown, ArrowLeftMini, ArrowRightMini, Stars2 } from '../../components/Icons'
 import { NavBarGeneral } from '../../components/NavBar'
 import Text from '../../components/Text'
@@ -12,8 +12,8 @@ const DashboardPage = ({ navigation }) => {
   const [view, setView] = useState(false)
 
   return (
-    <View style={styles.g_container} >
-      <ScrollView style={styles.g_container} >
+    <View style={st.g_container} >
+      <ScrollView style={st.g_container} >
         <DashBoard navigate={navigation.navigate} />
       </ScrollView>
 
@@ -27,10 +27,10 @@ const DashBoard = ({ navigate }) => {
 
   return (
     <>
-      <Text style={styles.title} >Dashboard</Text>
-      <Text style={styles.subtitle} >Calificacion</Text>
+      <Text style={st.title} >Dashboard</Text>
+      <Text style={st.subtitle} >Calificacion</Text>
       <ReviewBanner action={() => { navigate('GeneralReview') }} text={'Ver reseñas'} />
-      <Text style={styles.subtitle} >Estadisticas Generales</Text>
+      <Text style={st.subtitle} >Estadisticas Generales</Text>
       <Chart />
       <CategorySlide />
     </>
@@ -39,12 +39,12 @@ const DashBoard = ({ navigate }) => {
 
 export const ReviewBanner = ({ action, text }) => {
   return (
-    <View style={styles.review_banner} >
-      <View><Text style={styles.big_num} >4,7</Text></View>
-      <View style={styles.review_banner_bottom} >
+    <View style={st.review_banner} >
+      <View><Text style={st.big_num} >4,7</Text></View>
+      <View style={st.review_banner_bottom} >
         <Stars2 size='24' />
         <TouchableOpacity onPress={action} >
-          <Text style={styles.review_btn}  >{text}</Text>
+          <Text style={st.review_btn}  >{text}</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -53,15 +53,15 @@ export const ReviewBanner = ({ action, text }) => {
 
 const Chart = () => {
   return (
-    <View style={styles.chart_ctn} >
+    <View style={st.chart_ctn} >
       <DMY_menu />
       <DMY_calendar />
-      <View style={styles.middle_text_ctn}>
-        <Text style={styles.middle_num} >1254</Text>
-        <Text style={styles.middle_text} >Reseñas</Text>
+      <View style={st.middle_text_ctn}>
+        <Text style={st.middle_num} >1254</Text>
+        <Text style={st.middle_text} >Reseñas</Text>
       </View>
-      <View style={styles.stats_ctn} >
-        <Image source={stats} resizeMode="contain" style={styles.image} />
+      <View style={st.stats_ctn} >
+        <Image source={stats} resizeMode="contain" style={st.image} />
       </View>
     </View>
   )
@@ -85,14 +85,14 @@ const DMY_menu = () => {
 
   const Item = ({ text, type = false, num }) => {
     return (
-      <TouchableOpacity style={[(num !== index ? styles.DMY_selection : styles.DMY_selection_active), (!type ? styles2.DYM_item : null)]} onPress={() => { setIndex(num) }} >
+      <TouchableOpacity style={[(num !== index ? st.DMY_selection : st.DMY_selection_active), (!type ? styles2.DYM_item : null)]} onPress={() => { setIndex(num) }} >
         <Text color={num !== index ? '#FF6A00' : '#eee'} >{text}</Text>
       </TouchableOpacity>
     )
   }
 
   return (
-    <View style={[styles.DYM_menu_ctn, styles2.DYM_menu_ctn]} >
+    <View style={[st.DYM_menu_ctn, styles2.DYM_menu_ctn]} >
       <Item text='Dia' type={true} num={1} />
       <Item text='Semana' num={2} />
       <Item text='Mes' num={3} />
@@ -133,9 +133,9 @@ const DMY_calendar = () => {
   }
 
   return (
-    <View style={styles.DYM_arrows_ctn} >
+    <View style={st.DYM_arrows_ctn} >
       <ArrowLeftMini action={minusNum} />
-      <TouchableOpacity style={styles.DYM_arrows_ctn_inside} >
+      <TouchableOpacity style={st.DYM_arrows_ctn_inside} >
         <Text color='#FF6A00' >Mier, {`${num}`} de Mayo</Text>
         <ArrowDown color="#FF6A00" />
       </TouchableOpacity>
@@ -154,16 +154,16 @@ const CategorySlide = () => {
       setIndex(num)
     }
     return (
-      <TouchableOpacity style={(index === num ? styles.cs_item_active : styles.cs_item)} onPress={action} >
-        <Text style={(index === num ? styles.cs_num_active : styles.cs_num)} >{amount}</Text>
-        <Text style={(index === num ? styles.cs_text_active : styles.cs_text)} >{text}</Text>
+      <TouchableOpacity style={(index === num ? st.cs_item_active : st.cs_item)} onPress={action} >
+        <Text style={(index === num ? st.cs_num_active : st.cs_num)} >{amount}</Text>
+        <Text style={(index === num ? st.cs_text_active : st.cs_text)} >{text}</Text>
       </TouchableOpacity>
     )
   }
 
   return (
     <ScrollView horizontal={true}  >
-      <View style={styles.category_slide}>
+      <View style={st.category_slide}>
         <Item text='Reseñas' amount='1375' num={1} />
         <Item text='Favoritos' amount='276' num={2} />
         <Item text='Visitas' amount='395' num={3} />

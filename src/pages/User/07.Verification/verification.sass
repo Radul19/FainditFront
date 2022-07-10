@@ -95,17 +95,20 @@
     // background-color: #123
 
 .absolute_btn_bottom
-    position: absolute
+    // position: absolute
+    margin-top: auto
     width: 100%
     align-self: center
-    bottom: 60px
+    // bottom: 60px
+    margin-bottom: 30px
 
 .absolute_bottom_text_ctn
     flex-direction: row
     align-items: center
     justify-content: center
-    position: absolute
-    bottom: 15px
+    // position: absolute
+    margin: 12px
+    bottom: 12px
     align-self: center
 
 .top_title_small
@@ -133,10 +136,26 @@
     align-items: center
     margin-top: 16px
     position: relative
+    justify-content: space-between
+
+.num_input_ctn
+    width: 70%
+    // flex-direction: row
+    // align-items: center
 
 .num_ctn
     flex-direction: row
     align-items: center
+    background-color: #F5F7FA
+    border-radius: 20px
+    padding: 6px 10px
+
+.id_selector_ctn
+    flex-direction: row
+    align-items: center
+    background-color: #F5F7FA
+    border-radius: 20px
+    padding: 12px 10px
 
 .phone_num
     margin-left: 10px
@@ -145,7 +164,8 @@
 .check
     position: absolute
     z-index: 300
-    right: 0px
+    right: 14px
+    top: 20px
 
 /// Modals
 
@@ -204,70 +224,6 @@
     bottom: 10px
     width: 100%
     align-self: center
-
-/// Topics
-.top_title_small_2
-    font-size: 26px
-    color: #eee
-    margin-bottom: 12px
-
-.top_2
-    flex: 2
-    position: relative
-    justify-content: flex-end
-    padding-left: 20px
-
-.bot_2
-    border-radius: 25px 25px 0px 0px
-    background-color: #FFF
-    flex: 6
-    bottom: 0px
-    padding: 20px 20px 0px
-
-.bot_2_btn
-    position: absolute
-    bottom: 60px
-    width: 100%
-    // background-color: #123
-    align-self: center
-
-.bottom_text_ctn_2
-    position: absolute
-    bottom: 20px
-    width: 100%
-    align-self: center
-    flex-direction: row
-    justify-content: center
-    align-items: center
-
-.tag_container
-    height: 230px
-    gap: 12px
-    flex-direction: row
-    flex-wrap: wrap
-
-.code_inputs
-    // background-color: #11223361
-    flex-direction: row
-    justify-content: space-between
-    margin: 10px 0px
-
-.num
-    padding: 8px 14px
-    text-align: center
-    background-color: #FF6A00
-    color: #eee
-    border-radius: 5px
-    border: 2px solid #FF6A00
-
-    &_inactive
-        padding: 8px 14px
-        text-align: center
-        background-color: #eee
-        color: #FF6A00
-        border-radius: 5px
-        border: 2px solid #FF6A00
-
 
 //////
 .himage_ctn

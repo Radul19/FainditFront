@@ -18,7 +18,7 @@ const VerifyCv1 = ({ navigation }) => {
 
   return (
     <VerifyIdBack
-      title="Verificacion de identidad"
+      title="Crea un perfil profesional"
       subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
     >
       <Text style={st.subtitle}>Nombre del perfil</Text>
@@ -45,9 +45,9 @@ const VerifyCv1 = ({ navigation }) => {
 
       <View style={st.bottom}>
         <BtnPrimaryW text="Continuar" action={nextPage} />
-        <TouchableOpacity style={st.text_omt_ctn} onPress={nextPage}>
+        {/* <TouchableOpacity style={st.text_omt_ctn} onPress={nextPage}>
           <Text style={st.text_omt}>Omitir este paso</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
       <View style={{height:200}} ></View>

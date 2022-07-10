@@ -13,14 +13,15 @@ import { BtnPrimaryW } from "../../../components/Btns";
 import { ArrowBack, BigArrowBack } from "../../../components/Icons";
 import logo from "../../../images/backreg2.png";
 import himage from "../../../images/HimageCreate.png";
+import { InputWide } from "../../../components/Inputs";
 
 const RegisterPage = ({ navigation }) => {
   const [inputs, setInputs] = useState({
-    user: "",
+    name: "",
+    second_name: "",
     email: "",
     password: "",
     confirmPassword: "",
-    number: "",
   });
 
   const inputChange = (name, data) => setInputs({ ...inputs, [name]: data });
@@ -40,16 +41,42 @@ const RegisterPage = ({ navigation }) => {
           <View style={st.himage_ctn}>
             <Image style={st.himage} source={himage}></Image>
           </View>
-          <InfoInput text="Nombres" placehold="Jooglys David " />
-          <InfoInput text="Apellidos" placehold="Trejo Casasola" />
-          <InfoInput
-            text="Correo electronico"
-            placehold="Johndavid@gmail.com"
+          <Text style={st.input_title}>Nombres</Text>
+          <InputWide
+            name="name"
+            value={inputs.name}
+            set={inputChange}
+            placehold="Ej: Carlos Enrique"
           />
-          <InfoInput text="Contraseña" placehold="***********************" />
-          <InfoInput
-            text="Confirmar contraseña"
-            placehold="***********************"
+          <Text style={st.input_title}>Apellidos</Text>
+          <InputWide
+            name="second_name"
+            value={inputs.second_name}
+            set={inputChange}
+            placehold="Ej: Martinez Coronado"
+          />
+          <Text style={st.input_title}>Correo Electronico</Text>
+          <InputWide
+            name="email"
+            value={inputs.email}
+            set={inputChange}
+            placehold="Ej: perez@gmail.com"
+          />
+          <Text style={st.input_title}>Contraseña</Text>
+          <InputWide
+            name="password"
+            value={inputs.password}
+            set={inputChange}
+            placehold="**********"
+            pass={true}
+          />
+          <Text style={st.input_title}>Confirmar Contraseña</Text>
+          <InputWide
+            name="confirmPassword"
+            value={inputs.confirmPassword}
+            set={inputChange}
+            placehold="**********"
+            pass={true}
           />
           {/* <View style={styles.bot_text_ctn} >
                         <Text style={styles.bot_text} >¿Ya tienes una cuenta?</Text>
@@ -75,7 +102,7 @@ const RegisterPage = ({ navigation }) => {
             <Text style={st.bot_text}>¿Ya tienes una cuenta?</Text>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate("Login");
+                navigation.navigate("UserLogout");
               }}
             >
               <Text color="#FF6A00" style={st.bot_text_ctn_login}>

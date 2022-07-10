@@ -7,7 +7,7 @@ import { Context } from "../../../controllers/Context";
 
 import image from "../../../images/girl2.png";
 import { SmallerTag } from "../../../components/SearchDisplay";
-import { ArrowBack, ArrowRight } from "../../../components/Icons";
+import { ArrowBack, ArrowRight, Edit } from "../../../components/Icons";
 import { BtnBusiness2 } from "../../../components/Btns";
 import farmatodo from "../../../images/heroimg.png";
 import farmatodo_p from "../../../images/farmatodo.jpg";
@@ -51,7 +51,7 @@ const InfoInput = ({ text, placehold }) => {
 };
 
 export default UserPage;
-
+/////////////////////////////////// USER PROFILE
 const UserProfile = ({ navigation }) => {
   const [active, setActive] = useState(false);
 
@@ -70,47 +70,47 @@ const UserProfile = ({ navigation }) => {
   const [tagData, setTagData] = useState([
     {
       title: "Tecnologia",
-      body: "12311",
+      body: "010203",
       state: true,
     },
     {
       title: "Electrodomesticos",
-      body: "12322",
+      body: "010304",
       state: true,
     },
     {
       title: "Ropa",
-      body: "12333",
+      body: "001024",
       state: true,
     },
     {
       title: "Cocina",
-      body: "12344",
+      body: "301024",
       state: true,
     },
     {
       title: "Decoracion",
-      body: "12355",
+      body: "091283",
       state: true,
     },
     {
       title: "Electrodomesticos",
-      body: "12366",
+      body: "19083",
       state: true,
     },
     {
       title: "Comida rapida",
-      body: "12377",
+      body: "877571",
       state: true,
     },
     {
       title: "Decoracion",
-      body: "12388",
+      body: "981",
       state: true,
     },
     {
       title: "Relajacion",
-      body: "12399",
+      body: "p9428",
       state: true,
     },
   ]);
@@ -130,7 +130,7 @@ const UserProfile = ({ navigation }) => {
 
   const changeUser = () => {
     switchSeller();
-    // navigation.navigate('Dashboard')
+    navigation.navigate("Dashboard");
   };
 
   return (
@@ -217,11 +217,13 @@ const UserProfile = ({ navigation }) => {
                 }}
               >
                 <Text style={st.subtitle}>Tus Intereses</Text>
-                <Text style={st.change_profile_text}>Editar intereses</Text>
+                <TouchableOpacity>
+                  <Text style={st.change_profile_text}>Editar intereses</Text>
+                </TouchableOpacity>
               </View>
               <View style={st.tags_ctn}>
                 {tagData.map((item, index) => (
-                  <SmallerTag item={item} index={item.body} />
+                  <SmallerTag item={item} index={item.body} key={item.body} />
                 ))}
               </View>
 
@@ -233,7 +235,6 @@ const UserProfile = ({ navigation }) => {
               <Text style={[st.subtitle, { marginTop: 14 }]}>
                 Configuracion General
               </Text>
-              <Option text="Idiomas" />
               <Option text="Tus Favoritos" />
               <Option text="Notificaciones" />
               <Option text="Legal" />
@@ -250,6 +251,7 @@ const UserProfile = ({ navigation }) => {
   );
 };
 
+/////////////////////////////////// SELLER PROFILE
 const SellerProfile = ({ navigation }) => {
   const [active, setActive] = useState(false);
 
@@ -325,6 +327,11 @@ const SellerProfile = ({ navigation }) => {
     navigation.navigate("User");
   };
 
+  const AdminJobs = () => {
+    setNavbarType(5);
+    navigation.navigate("JobAdmin");
+  };
+
   return (
     <View style={st.g_container}>
       <ScrollView style={st.g_container}>
@@ -337,7 +344,12 @@ const SellerProfile = ({ navigation }) => {
         </View>
 
         <View style={st.profile_container}>
-          <Image source={farmatodo_p} style={st.image_profile} />
+          <TouchableOpacity style={st.edit_ctn}>
+            <Edit color={"#000"} />
+          </TouchableOpacity>
+          <View style={st.image_profile_ctn}>
+            <Image source={farmatodo_p} style={st.image} />
+          </View>
           <View style={st.profile_container_right}>
             <Text style={{ fontSize: 28, color: "#fff" }}>Farmatodo</Text>
             <Text style={st.btn_profile}>Cambiar foto de perfil</Text>
@@ -352,7 +364,7 @@ const SellerProfile = ({ navigation }) => {
           <Text style={[st.subtitle, { marginTop: 24 }]}>
             Configuracion General
           </Text>
-          <Option text="Idiomas" />
+          <Option text="Administrar Vacantes" press={AdminJobs} />
           <Option text="Notificaciones" />
           <Option text="Legal" />
           <Option text="Privacidad" />
