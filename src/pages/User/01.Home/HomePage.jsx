@@ -36,14 +36,16 @@ import food from "../../../images/food.png";
 import ropa from "../../../images/ropa.png";
 import tecnologia from "../../../images/tecnologia.png";
 import farmacias from "../../../images/farmacias.png";
+import cat from "../../../images/Categories/ipublicas";
 
 import nivea1 from "../../../images/nivea1.png";
 import nivea2 from "../../../images/nivea2.png";
 import {
   categoriesList,
   outsideCategories,
-  tags
+  tags,
 } from "../../../controllers/categories";
+
 const wWidth = Dimensions.get("window").width;
 const wHeight = Dimensions.get("window").height;
 
@@ -242,6 +244,7 @@ const HomePage = ({ navigation }) => {
   const [searchType, setSearchType] = useState(true);
 
   const hideTopPress = () => {
+    console.log("what");
     let copy = backState;
     switch (copy.length) {
       case 4:
@@ -265,10 +268,9 @@ const HomePage = ({ navigation }) => {
       default:
         break;
     }
-    setMomenty(false)
+    setMomenty(false);
     copy.pop();
     setBackState(copy);
-
   };
 
   const categoryOnPress = (subs, id, type) => {
@@ -277,7 +279,7 @@ const HomePage = ({ navigation }) => {
     if (id) {
       //// tags
       const copyData = [...tags];
-      copyData.splice(type, 1, { ...tags[type], state: true});
+      copyData.splice(type, 1, { ...tags[type], state: true });
       setTagData(copyData);
       ////
       setBackState([...backState, type]);
@@ -293,22 +295,26 @@ const HomePage = ({ navigation }) => {
     setCategory(categoriesList);
   };
 
-  const showMarkets = ()=>{
-    setHideTop(true)
-    setCategory(undefined)
-    setMomenty(true)
-  }
-  const showAll = ()=>{
-    setHideTop(true)
-    setCategory(undefined)
-  }
+  const showMarkets = () => {
+    setHideTop(true);
+    setCategory(undefined);
+    setMomenty(true);
+  };
+  const showAll = () => {
+    setHideTop(true);
+    setCategory(undefined);
+  };
 
-  const [momenty, setMomenty] = useState(false)
-
+  const [momenty, setMomenty] = useState(false);
 
   return (
     <View style={st.g_container}>
-      <FilterContainer setModal={setFilterModal} visible={filterModal}  tags={tagData} set={setTagData} />
+      <FilterContainer
+        setModal={setFilterModal}
+        visible={filterModal}
+        tags={tagData}
+        set={setTagData}
+      />
       <ScrollView style={st.scrollview}>
         {!hideTop ? (
           <>
@@ -335,7 +341,16 @@ const HomePage = ({ navigation }) => {
         ) : null}
         <View style={{ marginBottom: 10 }}>
           <View style={st.searchBtn_ctn}>
-            {!hideTop ? <View></View> : <ArrowBack action={hideTopPress} />}
+            {!hideTop ? (
+              <View></View>
+            ) : (
+              <TouchableOpacity
+                style={st.left_arrow_top}
+                onPress={hideTopPress}
+              >
+                <ArrowBack action={hideTopPress} />
+              </TouchableOpacity>
+            )}
             {!hideTop ? null : <Text style={st.faindit_title}>Faindit</Text>}
             <Tune action={toggleFilterState} state={filterState} />
           </View>
@@ -401,7 +416,7 @@ const HomePage = ({ navigation }) => {
 
         {/* ////////////////////////////////////////////////////// */}
 
-        {category === undefined & hideTop && !momenty ? (
+        {(category === undefined) & hideTop && !momenty ? (
           <View style={st.selector_ctn}>
             <CheckCircle
               text="Comercio"
@@ -508,7 +523,7 @@ const NotFoundResult = () => {
   );
 };
 
-const FilterContainer = ({ setModal, visible,tags,set }) => {
+const FilterContainer = ({ setModal, visible, tags, set }) => {
   return (
     <Modal
       animationType="slide"
@@ -545,17 +560,16 @@ const WideCategoryItem = ({ action, item }) => {
         action(categoriesList);
       }}
     >
-      <Text>{item.title}</Text>
+      <Image source={item.image} style={st.image} />
+      <Text style={st.c_subtitle_w}>{item.title}</Text>
     </TouchableOpacity>
   );
 };
 const WideCategoryItem2 = ({ action, item }) => {
   return (
-    <TouchableOpacity
-      style={st.wide_category_ctn}
-      onPress={action}
-    >
-      <Text>{item.title}</Text>
+    <TouchableOpacity style={st.wide_category_ctn} onPress={action}>
+      <Image source={item.image} style={st.image} />
+      <Text style={st.c_subtitle_w}>{item.title}</Text>
     </TouchableOpacity>
   );
 };
@@ -569,7 +583,11 @@ const CategoryItem = ({ item, action }) => {
         action(item.sub, item.id, item.type);
       }}
     >
-      <Text>{item.title}</Text>
+      {/* <Text>{item.title}</Text> */}
+      <View style={st.image_cat_ctn}>
+        <Image source={item.image} style={st.image} />
+        <Text style={st.c_subtitle}>{item.title}</Text>
+      </View>
     </TouchableOpacity>
   );
 };

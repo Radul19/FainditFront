@@ -4,100 +4,6 @@
 
 ///eas build --profile production --platform android
 
-{/* BOTTOM CONTENT */}
-        {search ?
-          <View style={styles.top} >
-            <MarketTopBar navigation={navigation} />
-            <View style={styles.top_mid} >
-              <Text>A</Text>
-            </View>
-            <View style={styles.top_bot} >
-              <View style={styles.top_bot_left} >
-                <Text>Nombre</Text>
-                <TouchableOpacity onPress={() => {
-                  setCommentView(!commentView)
-                }} >
-                  <Text color='#0067ce' >Reviews/Ver</Text>
-                </TouchableOpacity>
-              </View>
-              <Text>Compartir</Text>
-            </View>
-          </View>
-          :
-          <View style={styles.top_search}  >
-            <MarketTopBarSmall />
-            <View style={styles.top_search_bar} >
-              <TextInput
-                style={styles.searchbar}
-                onChangeText={setInputSearch}
-                value={inputSearch}
-                placeholder="Search..."
-              />
-            </View>
-          </View>
-        }
-        {/* BOTTOM CONTENT */}
-
-        {!commentView ?
-          <View style={styles.scroll} >
-            <View style={styles.scroll_top} >
-              <Text>Item/servicios</Text>
-              <View style={styles.scroll_top_right} >
-                <TouchableOpacity style={styles.scroll_top_right_view} onPress={() => {
-                  setView(!view)
-                }} >
-                  <Text color='#0067ce' >View</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => {
-                  setSearch(!search)
-                }} >
-                  <Text color='#0067ce' >{search ? 'Buscar' : 'Comercio'}</Text>
-                </TouchableOpacity>
-              </View>
-            </View >
-            {/* ITEMS FLAT LIST */}
-            {view ?
-              <View style={styles.items_container} >
-                {data.map(item => (
-                  <Item_card_A key={item.title} goToItem={goToItem} />
-                ))}
-              </View>
-              :
-              <View style={styles.items_container} >
-                {data.map(item => (
-                  <Item_card_B key={item.title} goToItem={goToItem} />
-                ))}
-              </View>
-            }
-          </View>
-          :
-          <View style={styles.scroll_B}>
-            <View style={styles.scroll_B_top} >
-              <Text style={styles.scroll_B_top_text} >5 stars</Text>
-              <Text style={styles.scroll_B_top_text}  >Comentarios</Text>
-            </View >
-            <View >
-              {data.map(item => (
-                <Comment key={item.title} />
-              ))}
-            </View>
-          </View>
-        }
-
-
-              <View style={styles.scroll_top_right} >
-                <TouchableOpacity style={styles.scroll_top_right_view}  >
-                  <Text color='#0067ce' >View</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => {
-                  setSearch(!search)
-                }} >
-                  <Text color='#0067ce' >{search ? 'Buscar' : 'Comercio'}</Text>
-                </TouchableOpacity>
-              </View>
-
-
-
 ////////////////////////////////
 Modificar Home
 
@@ -220,6 +126,7 @@ Categorías
 14. Otros talleres
 15. Otras tiendas de repuestos
 
+/*/*/*/*/*/*/*/*/*/*/*/*/*
 - construcción 
 1. Tienda de materiales de construcción
 2. Empresas constructoras 
