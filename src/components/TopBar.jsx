@@ -79,9 +79,9 @@ export const TuMarketTopBarLogo = ({
         <View style={st.tb_fmarket_left}>
           <Image source={image} style={st.image} resizeMode="stretch" />
         </View>
-        <View style={st.tb_fmarket_right}>
+        {/* <View style={st.tb_fmarket_right}>
           <Bell2 />
-        </View>
+        </View> */}
       </View>
       <View style={st.top_bar_home_down}>
         <View style={st.home_icon}>
