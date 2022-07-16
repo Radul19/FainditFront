@@ -16,13 +16,18 @@ import {
   ItemExpEdit,
   PlusText,
 } from "../CvItems";
+import { InputWide } from "../../../components/Inputs";
 
 const VerifyCv3 = ({ navigation }) => {
   const nextPage = () => {
     navigation.navigate("VerifyCv4");
   };
 
-  const [input, setInput] = useState("");
+  const [inputs, setInputs] = useState({
+    rol: "",
+    name: "",
+    functions:""
+  });
 
   return (
     <VerifyIdBack
@@ -37,11 +42,26 @@ const VerifyCv3 = ({ navigation }) => {
         text3="Junio 2019 - Marzo 2020"
       />
       <Text style={st.subtitle}>Cargo</Text>
-      <InputNormal text="Ej: Contador" />
+      <InputWide
+        name="rol"
+        set={setInputs}
+        value={inputs.rol}
+        placehold="Ej: Contador"
+      />
       <Text style={st.subtitle}>Nombre de la empresa</Text>
-      <InputNormal text="Ej: Microsoft" />
+      <InputWide
+        name="name"
+        set={setInputs}
+        value={inputs.name}
+        placehold="Ej: Microsoft"
+      />
       <Text style={st.subtitle}>Funciones del cargo</Text>
-      <InputNormal text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Scelerisque fringilla cras duis urna, purus, cras. Lorem a, tincidunt convallis volutpat diam diam massa ac molestie. " />
+      <InputWide
+        name="functions"
+        set={setInputs}
+        value={inputs.functions}
+        placehold="Detalles..."
+      />
 
       <Text style={st.subtitle}>¿Sigue trabajando alli?</Text>
       <CheckCircleDouble />

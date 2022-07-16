@@ -7,6 +7,7 @@ import {
   ArrowBack,
   Flag,
   PersonSil,
+  Dots,
 } from "../../components/Icons";
 import st from "./jobComponents.sass";
 import Text from "../../components/Text";
@@ -44,6 +45,41 @@ export const JobResult = ({ title, apply = true }) => {
       {apply ? (
         <View style={st.jr_bottom}>
           <JobApplyBtn />
+          <Heart />
+        </View>
+      ) : null}
+    </View>
+  );
+};
+
+export const JobResultSmall = ({ title, apply = true }) => {
+  return (
+    <View style={st.job_res_ctn}>
+      <View style={st.jr_title_ctn}>
+        <Text color="#ffffff">{title}</Text>
+      </View>
+
+      <View style={st.jr_subtitle_ctn}>
+        <Text style={st.big_subtitle}>Cajero</Text>
+        <Text style={{ fontSize: 18 }}>$200</Text>
+      </View>
+
+      <View style={st.jr_middle}>
+        <View style={st.jr_addres_ctn}>
+          <View style={st.home_icon}>
+            <FlyIcon />
+          </View>
+          <Text style={{ fontSize: 12, color: "#FF6A00", marginLeft: 6 }}>
+            Cabimas, las 40, Av. Universidad
+          </Text>
+        </View>
+        <Text style={{ marginRight: 12, color: "#343741", fontSize: 12 }}>
+          2 hours ago
+        </Text>
+      </View>
+      {apply ? (
+        <View style={st.jr_bottom}>
+          <JobSeeMore />
           <Heart />
         </View>
       ) : null}
@@ -169,6 +205,21 @@ export const JobEdit = ({ title }) => {
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Blandit orci
         auctor netus morbi vitae netus elit amet turpis id nisi ipsum dolor.
       </Text>
+    </TouchableOpacity>
+  );
+};
+
+export const JobSeeMore = () => {
+  const navigation = useNavigation();
+
+  const action = () => {
+    navigation.navigate("JobView");
+  };
+
+  return (
+    <TouchableOpacity style={st.job_apply_btn_small} onPress={action}>
+      <Dots />
+      <Text style={st.job_apply_text}>Ver mas</Text>
     </TouchableOpacity>
   );
 };

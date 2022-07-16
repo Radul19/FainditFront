@@ -16,6 +16,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import { BtnBusiness } from "./Btns";
 import { Context } from "../controllers/Context";
+import homeF from '../images/fainditHome.png'
 
 export const HomeTopBar = ({ user }) => {
   const navigation = useNavigation();
@@ -25,7 +26,9 @@ export const HomeTopBar = ({ user }) => {
   return (
     <View style={st.top_bar_home}>
       <View style={st.top_bar_home_left}>
-        <Text style={{ fontSize: 24 }}>Hola Juan!</Text>
+        <View style={st.image_home_F} >
+          <Image source={homeF} style={st.image} resizeMode="contain" />
+        </View>
         <BtnBusiness
           action={() => {
             if (authFaMarket) {
@@ -37,14 +40,6 @@ export const HomeTopBar = ({ user }) => {
             }
           }}
         />
-      </View>
-      <View style={st.top_bar_home_down}>
-        <View style={st.home_icon}>
-          <FlyIcon />
-        </View>
-        <Text style={{ fontSize: 12, color: "#FF6A00" }}>
-          Cabimas, Los laureles
-        </Text>
       </View>
     </View>
   );
@@ -79,9 +74,9 @@ export const TuMarketTopBarLogo = ({
         <View style={st.tb_fmarket_left}>
           <Image source={image} style={st.image} resizeMode="stretch" />
         </View>
-        {/* <View style={st.tb_fmarket_right}>
+        <View style={st.tb_fmarket_right}>
           <Bell2 />
-        </View> */}
+        </View>
       </View>
       <View style={st.top_bar_home_down}>
         <View style={st.home_icon}>

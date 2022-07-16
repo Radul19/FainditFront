@@ -30,13 +30,6 @@ import prom from "../../../images/promotion.png";
 import prom2 from "../../../images/promo2.png";
 
 /// Images
-import supermarket from "../../../images/supermarket.png";
-import ferreteria from "../../../images/ferreteria.png";
-import food from "../../../images/food.png";
-import ropa from "../../../images/ropa.png";
-import tecnologia from "../../../images/tecnologia.png";
-import farmacias from "../../../images/farmacias.png";
-import cat from "../../../images/Categories/ipublicas";
 
 import nivea1 from "../../../images/nivea1.png";
 import nivea2 from "../../../images/nivea2.png";
@@ -45,6 +38,7 @@ import {
   outsideCategories,
   tags,
 } from "../../../controllers/categories";
+import homeF from "../../../images/fainditHome.png";
 
 const wWidth = Dimensions.get("window").width;
 const wHeight = Dimensions.get("window").height;
@@ -242,6 +236,7 @@ const HomePage = ({ navigation }) => {
   const [actualSub, setActualSub] = useState({});
   const [searchResults, setSearchResults] = useState(null);
   const [searchType, setSearchType] = useState(true);
+  const [hideProm, setHideProm] = useState(false);
 
   const hideTopPress = () => {
     console.log("what");
@@ -263,6 +258,7 @@ const HomePage = ({ navigation }) => {
         setHideTop(false);
         setFilterState(false);
         setSearchState(false);
+        setHideProm(true)
         break;
 
       default:
@@ -299,10 +295,16 @@ const HomePage = ({ navigation }) => {
     setHideTop(true);
     setCategory(undefined);
     setMomenty(true);
+    setHideProm(false);
   };
   const showAll = () => {
     setHideTop(true);
     setCategory(undefined);
+    setHideProm(false);
+  };
+
+  const redirect = () => {
+    navigation.navigate("Market");
   };
 
   const [momenty, setMomenty] = useState(false);
@@ -329,7 +331,9 @@ const HomePage = ({ navigation }) => {
             layoutCardOffset={9}
             ref={isCarousel}
             data={data}
-            renderItem={CarouselCardItem}
+            renderItem={({ item, index }) => (
+              <CarouselCardItem action={redirect} item={item} index={index} />
+            )}
             sliderWidth={windowWidth}
             itemWidth={windowWidth}
             inactiveSlideShift={0}
@@ -351,16 +355,22 @@ const HomePage = ({ navigation }) => {
                 <ArrowBack action={hideTopPress} />
               </TouchableOpacity>
             )}
-            {!hideTop ? null : <Text style={st.faindit_title}>Faindit</Text>}
+            {!hideTop ? null : (
+              <View style={st.image_home_F}>
+                <Image source={homeF} style={st.image} resizeMode="contain" />
+              </View>
+            )}
             <Tune action={toggleFilterState} state={filterState} />
           </View>
-          {category === undefined && hideTop ? (
+          {(category === undefined) & hideTop && hideProm ? (
             <Carousel
               layout="default"
               layoutCardOffset={9}
               ref={isCarousel}
               data={data}
-              renderItem={CarouselCardItem}
+              renderItem={({ item, index }) => (
+                <CarouselCardItem action={redirect} item={item} index={index} />
+              )}
               sliderWidth={windowWidth}
               itemWidth={windowWidth}
               inactiveSlideShift={0}
@@ -467,15 +477,15 @@ const HomePage = ({ navigation }) => {
   );
 };
 
-const CarouselCardItem = ({ item, index }) => {
+const CarouselCardItem = ({ item, index, action }) => {
   return (
-    <View style={st.promotion_ctn} key={index}>
+    <TouchableOpacity style={st.promotion_ctn} key={index} onPress={action}>
       <Image
         style={st.image_promotion}
         source={item.imgUrl}
         resizeMode="contain"
       />
-    </View>
+    </TouchableOpacity>
   );
 };
 

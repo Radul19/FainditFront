@@ -59,15 +59,16 @@ export const NavBar = ({ navigation, active }) => {
       <TouchableOpacity
         style={st.icon}
         onPress={() => {
-          if (authFaMarket) {
-            if (authCv) {
-              navigation.navigate("JobSearch");
-            } else {
-              navigation.navigate("VerifyCv1");
-            }
-          } else {
-            navigation.navigate("UserLogout");
-          }
+          navigation.navigate("JobSearch");
+          // if (authFaMarket) {
+          //   if (authCv) {
+          //     navigation.navigate("JobSearch");
+          //   } else {
+          //     navigation.navigate("VerifyCv1");
+          //   }
+          // } else {
+          //   navigation.navigate("UserLogout");
+          // }
         }}
       >
         <Work active={active === 5 ? true : false} />

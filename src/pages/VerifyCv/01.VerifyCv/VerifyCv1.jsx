@@ -8,13 +8,18 @@ import himage from "../../../images/idcard.png";
 import vnzl from "../../../images/vnzla.png";
 import { BtnPrimaryW } from "../../../components/Btns";
 import { SearchBar } from "../../../components/SearchDisplay";
+import { InputWide } from "../../../components/Inputs";
 
 const VerifyCv1 = ({ navigation }) => {
   const nextPage = () => {
     navigation.navigate("VerifyCv2");
   };
 
-  const [input, setInput] = useState("");
+  const [search, setSearch] = useState("");
+  const [inputs, setInputs] = useState({
+    name: "",
+    details: "",
+  });
 
   return (
     <VerifyIdBack
@@ -22,15 +27,21 @@ const VerifyCv1 = ({ navigation }) => {
       subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
     >
       <Text style={st.subtitle}>Nombre del perfil</Text>
-      <Text style={st.text}>Cajero</Text>
-      <Text style={st.subtitle}>Hablanos un poco sobre ti </Text>
-      <Text style={st.text}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Scelerisque
-        fringilla cras duis urna, purus, cras. Lorem a, tincidunt convallis
-        volutpat diam diam massa ac molestie.{" "}
-      </Text>
+      <InputWide
+        name="name"
+        set={setInputs}
+        value={inputs.name}
+        placehold="Ej: Cajero"
+      />
+      <Text style={st.subtitle}>Hablanos un poco sobre tu experiencia</Text>
+      <InputWide
+        name="details"
+        set={setInputs}
+        value={inputs.details}
+        placehold="Detalles..."
+      />
       <Text style={st.subtitle}>Aptitudes </Text>
-      <SearchBar value={input} set={setInput} placehold="Añade aptitudes" />
+      <SearchBar value={search} set={setSearch} placehold="Añade aptitudes" />
 
       <View style={st.cross_tag_ctn}>
         <CrossTag text="Creativo" />
@@ -50,7 +61,7 @@ const VerifyCv1 = ({ navigation }) => {
         </TouchableOpacity> */}
       </View>
 
-      <View style={{height:200}} ></View>
+      <View style={{ height: 200 }}></View>
     </VerifyIdBack>
   );
 };

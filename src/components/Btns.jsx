@@ -92,6 +92,29 @@ export const BtnBusiness2 = ({ action }) => {
     </TouchableOpacity>
   );
 };
+export const BtnChange = ({ action }) => {
+  const { enableSeller } = useContext(Context);
+
+  return (
+    <TouchableOpacity style={styles.btn_change} onPress={action}>
+      {enableSeller ? (
+        <>
+          <Accircle color="#FFF" />
+          <Text color="#eee" style={{ marginLeft: 10, fontSize: 16 }}>
+            Modo Usuario
+          </Text>
+        </>
+      ) : (
+        <>
+          <Bussines />
+          <Text color="#eee" style={{ marginLeft: 10, fontSize: 16 }}>
+            Modo Ejecutivo
+          </Text>
+        </>
+      )}
+    </TouchableOpacity>
+  );
+};
 
 export const BtnContact = ({ action }) => {
   return (

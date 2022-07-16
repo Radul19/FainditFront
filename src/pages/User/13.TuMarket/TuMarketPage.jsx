@@ -5,12 +5,11 @@ import {
   Modal,
   TextInput,
   ScrollView,
+  Image,
+  Dimensions,
 } from "react-native";
-import React, { useState } from "react";
-import {
-  SearchBar,
-  DisplaySearch,
-} from "../../../components/SearchDisplay";
+import React, { useRef, useState } from "react";
+import { SearchBar, DisplaySearch } from "../../../components/SearchDisplay";
 import { NavBarGeneral } from "../../../components/NavBar";
 
 import st from "./tuMarket.sass";
@@ -21,53 +20,17 @@ import nivea1 from "../../../images/nivea1.png";
 import nivea2 from "../../../images/nivea2.png";
 import { BtnContact, BtnPublish } from "../../../components/Btns";
 import FilterModal from "../../../components/FilterModal";
-import fmarketlogo from "../../../images/fmarketbanner.png"
+import fmarketlogo from "../../../images/fmarketbanner.png";
+
+import prom from "../../../images/promotion.png";
+import prom2 from "../../../images/promo2.png";
+
+import Carousel from "react-native-snap-carousel";
+import { useNavigation } from "@react-navigation/native";
+const windowWidth = Dimensions.get("window").width;
 
 const TuMarketPage = ({ navigation }) => {
   const [inputSearch, setInputSearch] = useState("");
-  const dataMarket = [
-    {
-      title: "Aenean leo",
-      body: "1",
-      imgUrl: "https://picsum.photos/id/11/200/300",
-    },
-    {
-      title: "In turpis",
-      body: "2",
-      imgUrl: "https://picsum.photos/id/10/200/300",
-    },
-    {
-      title: "Lorem Ipsum 1",
-      body: "3",
-      imgUrl: "https://picsum.photos/id/12/200/300",
-    },
-    {
-      title: "Lorem Ipsum 2",
-      body: "4",
-      imgUrl: "https://picsum.photos/id/12/200/300",
-    },
-    {
-      title: "Lorem Ipsum 3",
-      body: "5",
-      imgUrl: "https://picsum.photos/id/12/200/300",
-    },
-    {
-      title: "Lorem Ipsum 4",
-      body: "6",
-      imgUrl: "https://picsum.photos/id/12/200/300",
-    },
-    {
-      title: "Lorem Ipsum 5",
-      body: "7",
-      imgUrl: "https://picsum.photos/id/12/200/300",
-    },
-    {
-      title: "Lorem Ipsum 6",
-      body: "8",
-      imgUrl: "https://picsum.photos/id/12/200/300",
-    },
-  ];
-
   const dataItem = [
     {
       title: "Crema nivea cellular",
@@ -112,16 +75,84 @@ const TuMarketPage = ({ navigation }) => {
   ];
 
   const [btnActive, setBtnActive] = useState(false);
-
   const [filterModal, setFilterModal] = useState(false);
+
+  const [index, setIndex] = useState(0);
+
+  const isCarousel = useRef(null);
+  const data = [
+    {
+      title: "Aenean leo",
+      body: "AD/Carrousel Promocional 1",
+      imgUrl: prom,
+      state: false,
+    },
+    {
+      title: "In turpis",
+      body: "AD/Carrousel Promocional 2",
+      imgUrl: prom2,
+      state: false,
+    },
+    {
+      title: "Lorem Ipsum",
+      body: "AD/Carrousel Promocional 3",
+      imgUrl: prom,
+      state: false,
+    },
+    {
+      title: "Lorem Ipsum",
+      body: "AD/Carrousel Promocional 4",
+      imgUrl: prom2,
+      state: false,
+    },
+    {
+      title: "Lorem Ipsum",
+      body: "AD/Carrousel Promocional 5",
+      imgUrl: prom,
+      state: false,
+    },
+    {
+      title: "Lorem Ipsum",
+      body: "AD/Carrousel Promocional 6",
+      imgUrl: prom2,
+      state: false,
+    },
+    {
+      title: "Lorem Ipsum",
+      body: "AD/Carrousel Promocional 7",
+      imgUrl: prom2,
+      state: false,
+    },
+    {
+      title: "Lorem Ipsum",
+      body: "AD/Carrousel Promocional 8",
+      imgUrl: prom,
+      state: false,
+    },
+    {
+      title: "Lorem Ipsum",
+      body: "AD/Carrousel Promocional 9",
+      imgUrl: prom2,
+      state: false,
+    },
+    {
+      title: "Lorem Ipsum",
+      body: "AD/Carrousel Promocional 10",
+      imgUrl: prom,
+      state: false,
+    },
+  ];
 
   const tunePress = () => {
     setFilterModal(true);
   };
 
-  const publishBtn = ()=>{
-    navigation.navigate("FmarketCreate_A")
-  }
+  const publishBtn = () => {
+    navigation.navigate("FmarketCreate_A");
+  };
+  const redirect = () => {
+    navigation.navigate("TuMarketItem");
+  };
 
   return (
     <View style={st.g_container}>
@@ -131,7 +162,23 @@ const TuMarketPage = ({ navigation }) => {
         {/* <View style={st.subtitle_ctn}>
           <Tune action={tunePress} />
         </View> */}
-        <View style={{ paddingHorizontal: 20}}>
+        <Carousel
+          layout="default"
+          layoutCardOffset={9}
+          ref={isCarousel}
+          data={data}
+          renderItem={({ item, index }) => (
+            <CarouselCardItem action={redirect} item={item} index={index} />
+          )}
+          sliderWidth={windowWidth}
+          itemWidth={windowWidth}
+          inactiveSlideShift={0}
+          useScrollView={true}
+          onSnapToItem={(index) => {
+            setIndex(index);
+          }}
+        />
+        <View style={{ paddingHorizontal: 20 }}>
           <SearchBar value={inputSearch} set={setInputSearch} />
         </View>
         <Text style={{ fontWeight: "bold", marginLeft: 20 }}>
@@ -165,3 +212,15 @@ const FilterContainer = ({ setModal, visible }) => {
 };
 
 export default TuMarketPage;
+
+const CarouselCardItem = ({ item, index, action }) => {
+  return (
+    <TouchableOpacity style={st.promotion_ctn} key={index} onPress={action}>
+      <Image
+        style={st.image_promotion}
+        source={item.imgUrl}
+        resizeMode="contain"
+      />
+    </TouchableOpacity>
+  );
+};

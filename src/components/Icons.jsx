@@ -1695,22 +1695,34 @@ export const Work = ({ size = "24", active = false }) => {
 export const Bell2 = ({ size = "24", color = "#FF6A00" }) => {
   const [modalActive, setModalActive] = useState(false);
   const [input, setInput] = useState("");
+
+  const inputRef = useRef(null);
+
   return (
     <>
       <Modal animationType="slide" transparent={true} visible={modalActive}>
         <View style={st.flag_modal}>
-          <View style={st.write_ctn}>
+          <View style={st.bell2_ctn}>
             <View style={st.r_top}>
-              <Text style={st.r_title}>Denunciar Contenido</Text>
-              <TouchableOpacity style={st.r_cross} onPress={()=>{setModalActive(false)}}>
+              <Text style={st.r_title}>Notificaciones</Text>
+              <TouchableOpacity
+                style={st.r_cross}
+                onPress={() => {
+                  setModalActive(false);
+                }}
+              >
                 <Cross />
               </TouchableOpacity>
             </View>
-            <View style={st.input_ctn}>
+            <Text style={{ fontSize: 12, marginTop: 12, color: "#0000006b" }}>
+              Recibiras una notificación por cada publicacion que coincida con
+              el texto
+            </Text>
+            <View style={st.input_ctn_bell2}>
               <TextInput
                 value={input}
-                style={st.input}
-                placeholder="Describe el problema aqui..."
+                style={st.input_bell2}
+                placeholder="Ej: Chemise Azul..."
                 onChangeText={setInput}
                 multiline={true}
                 ref={inputRef}
@@ -1719,10 +1731,10 @@ export const Bell2 = ({ size = "24", color = "#FF6A00" }) => {
             <TouchableOpacity
               style={st.btn_report}
               onPress={() => {
-                setFase("_3_");
+                setModalActive(false);
               }}
             >
-              <Text style={{ color: "#fff" }}>Reportar</Text>
+              <Text style={{ color: "#fff" }}>Aceptar</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -1746,5 +1758,25 @@ export const Bell2 = ({ size = "24", color = "#FF6A00" }) => {
         </Svg>
       </TouchableOpacity>
     </>
+  );
+};
+
+export const Dots = ({ color = "#FFF", size = "24" }) => {
+  return (
+    <Svg
+      clip-rule="evenodd"
+      fill-rule="evenodd"
+      stroke-linejoin="round"
+      stroke-miterlimit="2"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      height={size}
+      width={size}
+    >
+      <Path
+        fill={color}
+        d="m16.5 11.995c0-1.242 1.008-2.25 2.25-2.25s2.25 1.008 2.25 2.25-1.008 2.25-2.25 2.25-2.25-1.008-2.25-2.25zm-6.75 0c0-1.242 1.008-2.25 2.25-2.25s2.25 1.008 2.25 2.25-1.008 2.25-2.25 2.25-2.25-1.008-2.25-2.25zm-6.75 0c0-1.242 1.008-2.25 2.25-2.25s2.25 1.008 2.25 2.25-1.008 2.25-2.25 2.25-2.25-1.008-2.25-2.25z"
+      />
+    </Svg>
   );
 };

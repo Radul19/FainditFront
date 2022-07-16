@@ -16,13 +16,17 @@ import {
   ItemExpEdit,
   PlusText,
 } from "../CvItems";
+import { InputWide } from "../../../components/Inputs";
 
 const VerifyCv2 = ({ navigation }) => {
   const nextPage = () => {
     navigation.navigate("VerifyCv3");
   };
 
-  const [input, setInput] = useState("");
+  const [search, setSearch] = useState("");
+  const [inputs, setInputs] = useState({
+    education: "",
+  });
 
   return (
     <VerifyIdBack
@@ -36,8 +40,14 @@ const VerifyCv2 = ({ navigation }) => {
         text2="E.B.N Los laureles"
         text3="Junio 2012 - Marzo 2014"
       />
-      <Text style={st.subtitle}>Centro de educacion</Text>
-      <InputNormal text="¿Donde estudiaste?" />
+      <View style={{marginTop:12}} >
+        <InputWide
+          name="education"
+          set={setInputs}
+          value={inputs.education}
+          placehold="Donde estudiaste?"
+        />
+      </View>
       <Text style={st.subtitle}>Nivel de estudios</Text>
       <InputOptions text="Educacion basica primaria" />
 
@@ -55,12 +65,12 @@ const VerifyCv2 = ({ navigation }) => {
         <InputOptions text="Año" type={true} />
       </View>
 
-      <TouchableOpacity style={st.save_btn} >
-        <Text color="#FFFFFF" >Guardar</Text>
+      <TouchableOpacity style={st.save_btn}>
+        <Text color="#FFFFFF">Guardar</Text>
       </TouchableOpacity>
 
       <View style={st.bottom}>
-        <BtnPrimaryW text="Continuar" action={nextPage} /> 
+        <BtnPrimaryW text="Continuar" action={nextPage} />
       </View>
 
       <View style={{ height: 200 }}></View>
